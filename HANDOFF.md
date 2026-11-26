@@ -8,7 +8,7 @@
 | 源码 HEAD | `58e3bf2`（原分支 `feat/ssap`，与服务器 `ssap alw-test` 使用的代码一致） |
 | 当前擂主 | `H* = H_base + repair-cert-diagnosis + repair-lvs-artifacts` |
 | val 集 | **不再使用**（协议变更，见 `docs/alw-deployment-log.md` §7.3） |
-| 原始交接指令 | [`docs/handoff-2026-11-26.md`](docs/handoff-2026-11-26.md)（逐字副本） |
+| 原始交接指令 | [`docs/handoff-2026-11-26.md`](docs/handoff-2026-11-26.md)（正文原样，仅两处路径改为新位置） |
 
 > ⚠️ **本仓库是公开仓库（public）**。按交接要求保留了服务器路径、本机用户名与实验战报；
 > 密钥类凭据在入库前单独扫描过，未发现真实 key（仅有测试里的假占位符）。
@@ -54,6 +54,23 @@
 | `docs/presentation/` | 幻灯片 LaTeX 源码 + `alw-progress-slides.pdf`（`build/` 未入库，用 `docs/presentation/tools/render.py` 重建） |
 | `.cc-history/` | Claude Code 侧会话记录（原始） |
 | `docs/session-logs/antigravity/` | 主对话 transcript（Antigravity，`transcript.jsonl` / `transcript_full.jsonl` + 截图 `media/`） |
+
+### 2.1 交接指令里的路径 → 本仓库位置
+
+`docs/handoff-2026-11-26.md` 的正文未改写，只把两处旧机器路径换成新位置：
+
+| 原文写法 | 现位置 |
+|---|---|
+| 工作目录 `…/benchmark-deepeval/.worktrees/ssap`，分支 `feat/ssap` | 本仓库根目录，分支 `main`（同一份 `58e3bf2` 代码） |
+| `~/.gemini/antigravity/brain/<id>/.system_generated/logs/transcript.jsonl` | `docs/session-logs/antigravity/transcript.jsonl`（同目录另有 `transcript_full.jsonl` 与 `media/` 截图） |
+
+其余路径原文未动：`docs/…`、`configs/…`、`src/…`、`container/…`、`.cc-history/` 在本仓库内原样存在；
+`$S/…`、`~/autoalw/ssap`、`/localdata/$(whoami)/…` 只在评测服务器上有效。
+
+原文里两句“交接时状态”已过时，读时以大表为准：
+
+- “未提交：`.cc-history/`、`docs/presentation/`、`docs/logs/`。” → 这三个目录现已入库。
+- “材料位置（本机）”标题指的是交接时的开发机，现在指本仓库。
 
 ## 3. 在新机器上恢复
 
