@@ -1,0 +1,173 @@
+--- a/src/ssap/checkers/alw/repair.py
++++ b/src/ssap/checkers/alw/repair.py
+@@ -3,10 +3,18 @@
+ Shared by the live container wrapper (``mcr_entrypoint.py``) and the offline Path 1 replay
+ (``ssap.targets.alw.agent_wrapper.build_stateless_repair_invocation``), so both start Phase B
+ from the same arguments, prompt and budget inputs (prefix-invariant semantics).
++
++The prompt carries a deterministic diagnosis rendered from the certified best certificate
++(``.mcr/best/cert.json``, or ``gate["best_cert"]`` when already supplied): the uncertified
++mirror components with their raw margins, the components that are merely *not evaluated*
++because a registered prerequisite is uncertified, the recorded check-failure reasons, and the
++existing check directories. It is derived only from certificate fields and the registry's
++``depends_on`` edges, so it holds no task-specific knowledge and stays replay-invariant.
+ """
+ from __future__ import annotations
+ 
+ import json
++from pathlib import Path
+ from typing import Iterable
+ 
+ DROP_WITH_VALUE = {"--resume", "-r", "--session-id"}
+@@ -54,9 +62,136 @@
+     return out + ["-p", "--no-session-persistence", "--max-turns", str(int(turns))]
+ 
+ 
++def _margin(value) -> str:
++    """Compact rendering of a raw mirror margin (``None`` = not evaluated)."""
++    if value is None:
++        return "not evaluated"
++    try:
++        return f"{float(value):.6g}"
++    except (TypeError, ValueError):
++        return str(value)
++
++
++def _failure_note(details: dict, name: str) -> str | None:
++    """Recorded reason a component failed, read from the certificate's ``details`` only."""
++    if name == "m_lvs":
++        lvs = details.get("lvs") or {}
++        if isinstance(lvs, dict) and lvs.get("reason"):
++            return f"lvs backend={details.get('backend')!r} reason={lvs.get('reason')!r}"
++        if details.get("lvs_error"):
++            return f"lvs error={details['lvs_error']!r}"
++    if name == "m_drc":
++        drc = details.get("drc") or {}
++        if isinstance(drc, dict) and drc.get("markers") is not None:
++            cats = drc.get("categories") or {}
++            top = sorted(cats.items(), key=lambda kv: (-kv[1], kv[0]))[:4]
++            return (f"drc markers={drc.get('markers')} "
++                    f"top_categories={[f'{k}:{v}' for k, v in top]!r}")
++        if details.get("drc_error"):
++            return f"drc error={details['drc_error']!r}"
++    if name == "m_fill":
++        for key in ("fill_error", "lvs_error"):
++            if details.get(key):
++                return f"fill {key}={details[key]!r}"
++    if name == "m_morph" and details.get("morphology_error"):
++        return f"morphology error={details['morphology_error']!r}"
++    if name == "m_gds":
++        for key in ("geometry_error", "contract_error"):
++            if details.get(key):
++                return f"{key}={details[key]!r}"
++    return None
++
++
++def _mirror_deps() -> list[tuple[str, tuple[str, ...]]]:
++    """Ordered ``(name, depends_on)`` of the trajectory Class-1 checkers (registry order)."""
++    try:
++        from .registry import alw_registry
++
++        return [(s.name, tuple(s.depends_on)) for s in alw_registry().mirror()]
++    except Exception:  # noqa: BLE001 - a diagnosis aid must never break the prompt
++        return []
++
++
++def _best_cert(gate: dict | None, workspace: str) -> dict | None:
++    """The certified best certificate: ``gate["best_cert"]`` when supplied, else the workspace
++    record. Read-only and identical in live Phase B and offline Path 1 replay."""
++    if isinstance(gate, dict) and isinstance(gate.get("best_cert"), dict):
++        return gate["best_cert"]
++    try:
++        cert = json.loads((Path(workspace) / ".mcr" / "best" / "cert.json").read_text())
++    except (OSError, ValueError):
++        return None
++    return cert if isinstance(cert, dict) else None
++
++
++def diagnose(cert: dict | None, mirror: list[tuple[str, tuple[str, ...]]]) -> list[str]:
++    """Certificate-derived lines explaining which mirror components block promotion.
++
++    *mirror* is the ordered ``(name, depends_on)`` list of the trajectory Class-1 checkers, so
++    "blocked by an uncertified prerequisite" is decided by the registry, never by a task rule.
++    """
++    if not isinstance(cert, dict) or not cert:
++        return ["The certified best is empty, so no mirror component has a margin yet; a "
++                "present, certified candidate becomes the new best through the tier-0 bootstrap "
++                "and every component is evaluated from that point on."]
++    m = list(cert.get("m") or [])
++    raw = list(cert.get("raw_u") or [])
++    eps = list(cert.get("eps") or [])
++    details = cert.get("details") or {}
++    names = [n for n, _ in mirror]
++    if not m or len(m) != len(names):
++        return ["The certified best certificate carries no mirror vector comparable with the "
++                "current registry, so no component diagnosis can be derived from it."]
++    failed = [i for i, v in enumerate(m) if v != 1]
++    if not failed:
++        return ["Every mirror component is already certified: no repair is needed."]
++    index = {n: i for i, n in enumerate(names)}
++    lines = []
++    for i in failed:
++        prereqs = mirror[i][1]
++        blocked = [p for p in prereqs if p in index and m[index[p]] != 1]
++        margin = raw[i] if i < len(raw) else None
++        if margin is None:
++            why = ("not evaluated because prerequisite "
++                   f"{blocked} is uncertified" if blocked else
++                   "not evaluated by the checker although its prerequisites are certified")
++        else:
++            why = (f"raw margin {_margin(margin)} "
++                   f"(eps {_margin(eps[i] if i < len(eps) else 0)})")
++            if blocked:
++                why += f"; its outcome is also limited by uncertified prerequisite {blocked}"
++        note = _failure_note(details, names[i])
++        lines.append(f"- {names[i]}: {why}" + (f"; {note}" if note else ""))
++    # The translation of null margins into consequences the ratchet actually feels.
++    blocked = [names[i] for i in failed if (raw[i] if i < len(raw) else None) is None
++               and any(m[index[p]] != 1 for p in mirror[i][1] if p in index)]
++    if blocked:
++        lines.append(f"- uncertified-prerequisite components (raw_u null): {blocked}")
++    saturated = [names[i] for i in range(len(m)) if m[i] == 1]
++    if saturated and len(failed) > len(blocked):
++        lines.append(f"- already certified: {saturated}")
++    return lines
++
++
++def _recent_check_dirs(workspace: str, limit: int = 3) -> list[str]:
++    """Newest existing ``.mcr/checks/<run>`` directories, as workspace-relative paths."""
++    base = Path(workspace) / ".mcr" / "checks"
++    try:
++        runs = sorted((p for p in base.iterdir() if p.is_dir()), key=lambda p: p.name)
++    except OSError:
++        return []
++    return [f"{workspace}/.mcr/checks/{p.name}" for p in runs[-limit:]][::-1]
++
++
+ def repair_prompt(gate: dict, fork: dict, handoff_record: dict | None,
+-                  workspace: str = WORKSPACE) -> str:
++                  workspace: str = WORKSPACE,
++                  mirror: list[tuple[str, tuple[str, ...]]] | None = None) -> str:
+     w = workspace
++    cert = _best_cert(gate, w)
++    lines = diagnose(cert, mirror if mirror is not None else _mirror_deps())
++    checks = _recent_check_dirs(w)
++    checks_block = ("\n".join(f"- {p}" for p in checks) if checks
++                    else "- (no completed check directories recorded)")
+     return f"""You are a stateless repair session for the layout task in {w}.
+ Read the original task statement in {w}/.mcr/task_prompt.txt first; it still applies.
+ A previous session ended. Its certified best layout is {w}/submission/layout.gds
+@@ -64,6 +199,13 @@
+ 
+ Gate report (why this repair runs):
+ {json.dumps(gate, indent=1, default=str)}
++
++Certificate diagnosis (mirror names, raw margins and eps are as recorded in the certificate;
++"not evaluated" means the component produced no margin):
++{chr(10).join(lines)}
++
++Previous check outputs (deck logs, LVS reports and extraction artefacts):
++{checks_block}
+ 
+ Handoff record of the previous session:
+ {json.dumps(handoff_record, indent=1, default=str) if handoff_record else "(none)"}

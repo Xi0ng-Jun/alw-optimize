@@ -1,0 +1,1670 @@
+{
+  "split_summary": {
+    "total_tasks": 40,
+    "dev": 12,
+    "dev_visible": 8,
+    "dev_blind_clusters": 3,
+    "dev_blind_tasks": 4,
+    "val_sealed": 14,
+    "test_sealed": 14
+  },
+  "visible_dev_tasks": [
+    {
+      "number": 2,
+      "task_id": "sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout",
+      "title": "差分推挽源随缓冲器版图",
+      "source": "adb",
+      "source_label": "adb",
+      "upstream_repo": null,
+      "upstream_dataset": null,
+      "runtime_profile": "continuous",
+      "lvs_backend": "magic_netgen",
+      "q_max": 4.0,
+      "u_target": 1.1,
+      "u_min": 0.1,
+      "top": "buf_ppsf_bs",
+      "ports": [
+        "IREF",
+        "VCM",
+        "VDD",
+        "VIN",
+        "VIP",
+        "VON",
+        "VOP",
+        "VSS"
+      ],
+      "substrate": "VSS",
+      "subckts": [
+        "buf_ppsf_bs"
+      ],
+      "child_subckts": [],
+      "devices": 39,
+      "nets": 27,
+      "agent_timeout_sec": 10800.0,
+      "verifier_timeout_sec": 3600.0,
+      "cpus": 6,
+      "memory_mb": 32768,
+      "extra": {}
+    },
+    {
+      "number": 7,
+      "task_id": "sky130-adb-complementary-folded-cascode-ab-opamp-pvt-layout",
+      "title": "互补轨到轨 Class-AB 折叠共源共栅运放版图",
+      "source": "adb",
+      "source_label": "adb",
+      "upstream_repo": null,
+      "upstream_dataset": null,
+      "runtime_profile": "continuous",
+      "lvs_backend": "klayout",
+      "q_max": 3.0,
+      "u_target": 0.9,
+      "u_min": 0.1,
+      "top": "complementary_folded_cascode_ab_opamp",
+      "ports": [
+        "vss",
+        "iref",
+        "vdd",
+        "vinn",
+        "vinp",
+        "vout"
+      ],
+      "substrate": "vss",
+      "subckts": [
+        "complementary_folded_cascode_ab_opamp"
+      ],
+      "child_subckts": [],
+      "devices": 59,
+      "nets": 33,
+      "agent_timeout_sec": 10800.0,
+      "verifier_timeout_sec": 3600.0,
+      "cpus": 6,
+      "memory_mb": 32768,
+      "extra": {}
+    },
+    {
+      "number": 11,
+      "task_id": "sky130-adb-fd-sampling-feedback-ota-gain1-settling40ns-noise300uv-pvt-mc-layout",
+      "title": "增益1、40 ns建立的全差分采样反馈OTA版图",
+      "source": "adb",
+      "source_label": "adb",
+      "upstream_repo": null,
+      "upstream_dataset": null,
+      "runtime_profile": "binned",
+      "lvs_backend": "klayout",
+      "q_max": 3.0,
+      "u_target": 0.9,
+      "u_min": 0.1,
+      "top": "sampling_feedback_ota",
+      "ports": [
+        "vss",
+        "iref",
+        "vdd",
+        "vinn",
+        "vinp",
+        "vocm",
+        "voutn",
+        "voutp"
+      ],
+      "substrate": "vss",
+      "subckts": [
+        "sampling_feedback_ota"
+      ],
+      "child_subckts": [],
+      "devices": 40,
+      "nets": 25,
+      "agent_timeout_sec": 10800.0,
+      "verifier_timeout_sec": 3600.0,
+      "cpus": 6,
+      "memory_mb": 32768,
+      "extra": {}
+    },
+    {
+      "number": 12,
+      "task_id": "sky130-adb-fd-sampling-feedback-ota-gain8-settling10ns-noise1mv-pvt-mc-layout",
+      "title": "增益8、10 ns建立的全差分采样反馈OTA版图",
+      "source": "adb",
+      "source_label": "adb",
+      "upstream_repo": null,
+      "upstream_dataset": null,
+      "runtime_profile": "continuous",
+      "lvs_backend": "klayout",
+      "q_max": 3.0,
+      "u_target": 0.95,
+      "u_min": 0.1,
+      "top": "sampling_feedback_ota",
+      "ports": [
+        "vss",
+        "iref",
+        "vdd",
+        "vinn",
+        "vinp",
+        "vocm",
+        "voutn",
+        "voutp"
+      ],
+      "substrate": "vss",
+      "subckts": [
+        "sampling_feedback_ota"
+      ],
+      "child_subckts": [],
+      "devices": 45,
+      "nets": 25,
+      "agent_timeout_sec": 10800.0,
+      "verifier_timeout_sec": 3600.0,
+      "cpus": 6,
+      "memory_mb": 32768,
+      "extra": {}
+    },
+    {
+      "number": 13,
+      "task_id": "sky130-adb-fd-two-stage-miller-opamp-gain60-pm60-noise50uv-pvt-layout",
+      "title": "SKY130 版图任务：fd-two-stage-miller-opamp-gain60-pm60-noise50uv-pvt",
+      "source": "adb",
+      "source_label": "adb",
+      "upstream_repo": null,
+      "upstream_dataset": null,
+      "runtime_profile": "continuous",
+      "lvs_backend": "klayout",
+      "q_max": 4.0,
+      "u_target": 0.65,
+      "u_min": 0.1,
+      "top": "fd_two_stage_miller_opamp",
+      "ports": [
+        "vss",
+        "iref",
+        "vdd",
+        "vinn",
+        "vinp",
+        "vocm",
+        "voutn",
+        "voutp"
+      ],
+      "substrate": "vss",
+      "subckts": [
+        "fd_two_stage_miller_opamp"
+      ],
+      "child_subckts": [],
+      "devices": 44,
+      "nets": 27,
+      "agent_timeout_sec": 10800.0,
+      "verifier_timeout_sec": 3600.0,
+      "cpus": 6,
+      "memory_mb": 32768,
+      "extra": {}
+    },
+    {
+      "number": 18,
+      "task_id": "sky130-adb-low-power-line-driver-pvt-layout",
+      "title": "低功耗线驱动器版图",
+      "source": "adb",
+      "source_label": "adb",
+      "upstream_repo": null,
+      "upstream_dataset": null,
+      "runtime_profile": "continuous",
+      "lvs_backend": "klayout",
+      "q_max": 4.0,
+      "u_target": 0.95,
+      "u_min": 0.1,
+      "top": "low_power_line_driver",
+      "ports": [
+        "vss",
+        "iref",
+        "vdd",
+        "vinn",
+        "vinp",
+        "vout"
+      ],
+      "substrate": "vss",
+      "subckts": [
+        "low_power_line_driver"
+      ],
+      "child_subckts": [],
+      "devices": 27,
+      "nets": 17,
+      "agent_timeout_sec": 10800.0,
+      "verifier_timeout_sec": 3600.0,
+      "cpus": 6,
+      "memory_mb": 32768,
+      "extra": {}
+    },
+    {
+      "number": 21,
+      "task_id": "sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout",
+      "title": "电流偏置五管 OTA 版图",
+      "source": "adb",
+      "source_label": "adb",
+      "upstream_repo": null,
+      "upstream_dataset": null,
+      "runtime_profile": "continuous",
+      "lvs_backend": "klayout",
+      "q_max": 3.0,
+      "u_target": 0.95,
+      "u_min": 0.1,
+      "top": "ota_5t",
+      "ports": [
+        "vss",
+        "ibias",
+        "vdd",
+        "vinn",
+        "vinp",
+        "vout"
+      ],
+      "substrate": "vss",
+      "subckts": [
+        "ota_5t"
+      ],
+      "child_subckts": [],
+      "devices": 6,
+      "nets": 6,
+      "agent_timeout_sec": 10800.0,
+      "verifier_timeout_sec": 3600.0,
+      "cpus": 6,
+      "memory_mb": 32768,
+      "extra": {}
+    },
+    {
+      "number": 27,
+      "task_id": "sky130-adb-tia-zt8k-bw750m-noise5p-sfdr70-power5m-pt-layout",
+      "title": "SKY130 版图任务：tia-zt8k-bw750m-noise5p-sfdr70-power5m-pt",
+      "source": "adb",
+      "source_label": "adb",
+      "upstream_repo": null,
+      "upstream_dataset": null,
+      "runtime_profile": "binned",
+      "lvs_backend": "klayout",
+      "q_max": 4.0,
+      "u_target": 0.6,
+      "u_min": 0.1,
+      "top": "tia",
+      "ports": [
+        "IREF",
+        "IN",
+        "VCM",
+        "VDD",
+        "VOUT",
+        "VSS"
+      ],
+      "substrate": "VSS",
+      "subckts": [
+        "tia"
+      ],
+      "child_subckts": [],
+      "devices": 9,
+      "nets": 6,
+      "agent_timeout_sec": 10800.0,
+      "verifier_timeout_sec": 3600.0,
+      "cpus": 6,
+      "memory_mb": 32768,
+      "extra": {}
+    }
+  ],
+  "visible_phase1b_forensic": [
+    {
+      "hand": {
+        "status": "in_progress",
+        "updated_utc": "2026-11-23T11:44:00Z",
+        "promoted": true,
+        "artifact": "submission/layout.gds  sha256 0afb10e5b010fab0d66a7cf96f08762c  top cell buf_ppsf_bs",
+        "last_check": ".mcr/checks/20261123T113449_772cf7c1",
+        "mirror": {
+          "m_gds": "PASS - readable GDS, single top cell buf_ppsf_bs, bbox (-1,0)-(392.05,335.14) um",
+          "m_shape": "PASS - aspect q = 1.03 (limit 4.0)",
+          "m_morph": "PASS (magic_netgen backend exempt)",
+          "m_drc": "PASS - 0 markers with thr=2 feol=true beol=true offgrid=true floating_met=true",
+          "m_lvs": "FAIL - 8 ports reported disconnected; 459 extracted vs 39 schematic devices; 'Top level cell failed pin matching'",
+          "m_fill": "unavailable (gated on m_lvs)"
+        },
+        "what_is_done": [
+          "Submission promoted and DRC-clean, so the ratchet holds a valid floor.",
+          "All 39 devices instantiated at the schematic sizes: NMOS/PMOS pcells with nf == schematic m (verified earlier that an nf=50 pcell extracts as 50 parallel devices which netgen merges into the m=50 schematic device).",
+          "8 MIM caps 49.85 x 49.85 and 8 serpentine poly resistors (w=0.33, nx=32, extracts l=5685.8) placed.",
+          "8 PIN-layer labels (68/16) at met1 pads in the exact contract order IREF VCM VDD VIN VIP VON VOP VSS.",
+          "Sources: build.py (assembly), common.py (rect/wire/via helpers, Magic resistor generator), devices.py (MOS/cap/res wrappers incl. add_mos met1-strap + isolated-NMOS body pocket), make_res_snake.py, res_snake.gds."
+        ],
+        "known_blockers": [
+          "No routing. Every device terminal, cap plate, resistor end and port pad is an isolated island, hence 950 nets and disconnected ports.",
+          "floating_met=true in the DRC deck: any metal that does not touch a via/mcon is an error, so routing stubs must always end on a via.",
+          "devices.add_mos() is written but unused; it is the primitive that draws met1 diff straps, met2 source/drain bars with via1, and the met1 gate pad."
+        ],
+        "next_steps": [
+          "1. Replace the packer in build.py with devices.add_mos() per device so each MOS exposes dev.g / dev.a / dev.b met2 bars and dev.body.",
+          "2. Write a small rectilinear router (met2 horizontal, met3 vertical, via2 at crossings) over the Term objects; route 29 nets: VDD, VSS, IREF, VCM, VIN, VIP, VON, VOP, net1..net20.",
+          "3. Terminate every route end on a via_stack(); never leave a metal stub.",
+          "4. Re-run bash work/is2/run_drc.sh work/draft/layout.gds buf_ppsf_bs /tmp/dN after each group of nets, then mcr_promote.",
+          "5. Then attempt post-layout PEX sim across the 5 corners (secondary to LVS)."
+        ]
+      },
+      "lvs": {
+        "out_dir": "/alb-workspace/.mcr/checks/20261123T113449_772cf7c1/lvs",
+        "passed": false,
+        "reason": "LVS mismatch"
+      },
+      "trace": {
+        "best_sha256_after": "8f46f2486004563c125c9cb3e2dcce74012a9e4cec0baa2d5515910ad79948f8",
+        "best_sha256_before": "8f46f2486004563c125c9cb3e2dcce74012a9e4cec0baa2d5515910ad79948f8",
+        "pending_promotion": null,
+        "phase_b": {
+          "returncode": 1,
+          "seconds": 200.844,
+          "session": 17317,
+          "stray_processes_terminated": 0,
+          "timed_out": false
+        },
+        "ratchet_promoted": false,
+        "schema_version": 1
+      },
+      "fork": {
+        "granted_repair_budget_sec": 900.0,
+        "granted_repair_turns": 15,
+        "pending_promotion": {
+          "promoted": false,
+          "reason": "same_tier_no_improvement"
+        },
+        "phase_a": {
+          "returncode": 0,
+          "seconds": 9734.064,
+          "session": 44,
+          "stray_processes_terminated": 3,
+          "timed_out": false
+        },
+        "phase_a_argv": [
+          "--verbose",
+          "--output-format=stream-json",
+          "--settings",
+          "/tmp/claude-code-settings/settings.json",
+          "--effort",
+          "max",
+          "--permission-mode=bypassPermissions",
+          "--print"
+        ],
+        "phase_a_elapsed_sec": 9734.118,
+        "remaining_sec": 1065.882,
+        "repair_eligible": true,
+        "schema_version": 1,
+        "watermarks": {
+          "delta_s_rep_turns": 15,
+          "delta_t_rep_sec": 900.0,
+          "kill_grace_sec": 5.0,
+          "min_remaining_for_repair_sec": 180.0,
+          "t_max_sec": 10800.0,
+          "t_soft_sec": 9900.0,
+          "t_warn_sec": 9000.0,
+          "tail_buffer_sec": 120.0
+        }
+      }
+    },
+    {
+      "hand": {},
+      "lvs": null,
+      "trace": {
+        "best_sha256_after": null,
+        "best_sha256_before": null,
+        "pending_promotion": null,
+        "phase_b": {
+          "returncode": 1,
+          "seconds": 167.831,
+          "session": 8930,
+          "stray_processes_terminated": 0,
+          "timed_out": false
+        },
+        "ratchet_promoted": false,
+        "schema_version": 1
+      },
+      "fork": {
+        "granted_repair_budget_sec": 779.917,
+        "granted_repair_turns": 15,
+        "pending_promotion": null,
+        "phase_a": {
+          "returncode": 143,
+          "seconds": 9900.029,
+          "session": 44,
+          "stray_processes_terminated": 0,
+          "timed_out": true
+        },
+        "phase_a_argv": [
+          "--verbose",
+          "--output-format=stream-json",
+          "--settings",
+          "/tmp/claude-code-settings/settings.json",
+          "--effort",
+          "max",
+          "--permission-mode=bypassPermissions",
+          "--print"
+        ],
+        "phase_a_elapsed_sec": 9900.083,
+        "remaining_sec": 899.917,
+        "repair_eligible": true,
+        "schema_version": 1,
+        "watermarks": {
+          "delta_s_rep_turns": 15,
+          "delta_t_rep_sec": 900.0,
+          "kill_grace_sec": 5.0,
+          "min_remaining_for_repair_sec": 180.0,
+          "t_max_sec": 10800.0,
+          "t_soft_sec": 9900.0,
+          "t_warn_sec": 9000.0,
+          "tail_buffer_sec": 120.0
+        }
+      }
+    }
+  ],
+  "visible_phase1c_runs": [
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 0,
+      "cost": {
+        "cached_tokens": 2859904,
+        "input_tokens": 30399336,
+        "output_tokens": 1354034,
+        "peak_ram_mb": 673.5,
+        "tool_cpu_sec": 2415.414,
+        "usd": null,
+        "wall_sec": 10522.475
+      },
+      "d_star": {
+        "drc": 1,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 1354.133391,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "model_swap": true,
+      "proxy_requests": 415,
+      "ratchet_promoted": true,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout-s0",
+      "score_is_lower_bound": false,
+      "seed": 0,
+      "status": "evaluated",
+      "t_soft_stop": true,
+      "task_id": "sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10522.475
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 0,
+      "cost": {
+        "cached_tokens": 6440832,
+        "input_tokens": 66273551,
+        "output_tokens": 2009695,
+        "peak_ram_mb": 604.9,
+        "tool_cpu_sec": 2548.42,
+        "usd": null,
+        "wall_sec": 10688.771
+      },
+      "d_star": {
+        "drc": 0,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 2717.542843,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "model_swap": true,
+      "proxy_requests": 776,
+      "ratchet_promoted": false,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout-s1",
+      "score_is_lower_bound": false,
+      "seed": 1,
+      "status": "evaluated",
+      "t_soft_stop": true,
+      "task_id": "sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10688.771
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 0,
+      "cost": {
+        "cached_tokens": 4260480,
+        "input_tokens": 33199724,
+        "output_tokens": 1263072,
+        "peak_ram_mb": 512.5,
+        "tool_cpu_sec": 2361.37,
+        "usd": null,
+        "wall_sec": 10231.257
+      },
+      "d_star": {
+        "drc": 1,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 1327.168305,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "model_swap": true,
+      "proxy_requests": 398,
+      "ratchet_promoted": false,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-complementary-folded-cascode-ab-opamp-pvt-layout-s0",
+      "score_is_lower_bound": false,
+      "seed": 0,
+      "status": "evaluated",
+      "t_soft_stop": false,
+      "task_id": "sky130-adb-complementary-folded-cascode-ab-opamp-pvt-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10231.257
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 0,
+      "cost": {
+        "cached_tokens": 5290752,
+        "input_tokens": 37867262,
+        "output_tokens": 1363706,
+        "peak_ram_mb": 662.1,
+        "tool_cpu_sec": 1857.564,
+        "usd": null,
+        "wall_sec": 10626.31
+      },
+      "d_star": {
+        "drc": 0,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 0
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 1512.654552,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "model_swap": true,
+      "proxy_requests": 464,
+      "ratchet_promoted": true,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-complementary-folded-cascode-ab-opamp-pvt-layout-s1",
+      "score_is_lower_bound": false,
+      "seed": 1,
+      "status": "evaluated",
+      "t_soft_stop": true,
+      "task_id": "sky130-adb-complementary-folded-cascode-ab-opamp-pvt-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10626.31
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 0,
+      "cost": {
+        "cached_tokens": 4493184,
+        "input_tokens": 25033345,
+        "output_tokens": 1445344,
+        "peak_ram_mb": 739.3,
+        "tool_cpu_sec": 1495.131,
+        "usd": null,
+        "wall_sec": 10220.923
+      },
+      "d_star": {
+        "drc": 1,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 1061.420455,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "model_swap": true,
+      "proxy_requests": 361,
+      "ratchet_promoted": false,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-fd-sampling-feedback-ota-gain1-settling40ns-noise300uv-pvt-mc-layout-s0",
+      "score_is_lower_bound": false,
+      "seed": 0,
+      "status": "evaluated",
+      "t_soft_stop": false,
+      "task_id": "sky130-adb-fd-sampling-feedback-ota-gain1-settling40ns-noise300uv-pvt-mc-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10220.923
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 0,
+      "cost": {
+        "cached_tokens": 5391104,
+        "input_tokens": 58719192,
+        "output_tokens": 1676764,
+        "peak_ram_mb": 463.5,
+        "tool_cpu_sec": 2354.914,
+        "usd": null,
+        "wall_sec": 10145.144
+      },
+      "d_star": {
+        "drc": 1,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 2359.683938,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "model_swap": true,
+      "proxy_requests": 674,
+      "ratchet_promoted": false,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-fd-sampling-feedback-ota-gain1-settling40ns-noise300uv-pvt-mc-layout-s1",
+      "score_is_lower_bound": false,
+      "seed": 1,
+      "status": "evaluated",
+      "t_soft_stop": false,
+      "task_id": "sky130-adb-fd-sampling-feedback-ota-gain1-settling40ns-noise300uv-pvt-mc-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10145.144
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 0,
+      "cost": {
+        "cached_tokens": 2910848,
+        "input_tokens": 32227212,
+        "output_tokens": 1456349,
+        "peak_ram_mb": 481.9,
+        "tool_cpu_sec": 1211.121,
+        "usd": null,
+        "wall_sec": 10414.003
+      },
+      "d_star": {
+        "drc": 1,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 1396.019722,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "model_swap": true,
+      "proxy_requests": 412,
+      "ratchet_promoted": false,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-fd-sampling-feedback-ota-gain8-settling10ns-noise1mv-pvt-mc-layout-s0",
+      "score_is_lower_bound": false,
+      "seed": 0,
+      "status": "evaluated",
+      "t_soft_stop": true,
+      "task_id": "sky130-adb-fd-sampling-feedback-ota-gain8-settling10ns-noise1mv-pvt-mc-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10414.003
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 1,
+      "cost": {
+        "cached_tokens": 4182656,
+        "input_tokens": 36476632,
+        "output_tokens": 1303921,
+        "peak_ram_mb": 462.9,
+        "tool_cpu_sec": 2051.704,
+        "usd": null,
+        "wall_sec": 10388.704
+      },
+      "d_star": {
+        "drc": 1,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 1496.218035,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "model_swap": true,
+      "proxy_requests": 436,
+      "ratchet_promoted": true,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-fd-sampling-feedback-ota-gain8-settling10ns-noise1mv-pvt-mc-layout-s1",
+      "score_is_lower_bound": false,
+      "seed": 1,
+      "status": "evaluated",
+      "t_soft_stop": true,
+      "task_id": "sky130-adb-fd-sampling-feedback-ota-gain8-settling10ns-noise1mv-pvt-mc-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10388.704
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 1,
+      "cost": {
+        "cached_tokens": 2947072,
+        "input_tokens": 29820005,
+        "output_tokens": 1502887,
+        "peak_ram_mb": 475.0,
+        "tool_cpu_sec": 1557.13,
+        "usd": null,
+        "wall_sec": 10611.423
+      },
+      "d_star": {
+        "drc": 0,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 1308.600768,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "model_swap": true,
+      "proxy_requests": 408,
+      "ratchet_promoted": true,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-fd-two-stage-miller-opamp-gain60-pm60-noise50uv-pvt-layout-s0",
+      "score_is_lower_bound": false,
+      "seed": 0,
+      "status": "evaluated",
+      "t_soft_stop": true,
+      "task_id": "sky130-adb-fd-two-stage-miller-opamp-gain60-pm60-noise50uv-pvt-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10611.423
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 0,
+      "cost": {
+        "cached_tokens": 4674304,
+        "input_tokens": 37964155,
+        "output_tokens": 1385482,
+        "peak_ram_mb": 485.5,
+        "tool_cpu_sec": 1888.412,
+        "usd": null,
+        "wall_sec": 10419.271
+      },
+      "d_star": {
+        "drc": 1,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 1509.880167,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "model_swap": true,
+      "proxy_requests": 445,
+      "ratchet_promoted": false,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-fd-two-stage-miller-opamp-gain60-pm60-noise50uv-pvt-layout-s1",
+      "score_is_lower_bound": false,
+      "seed": 1,
+      "status": "evaluated",
+      "t_soft_stop": true,
+      "task_id": "sky130-adb-fd-two-stage-miller-opamp-gain60-pm60-noise50uv-pvt-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10419.271
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 0,
+      "cost": {
+        "cached_tokens": 2188928,
+        "input_tokens": 29311925,
+        "output_tokens": 1486393,
+        "peak_ram_mb": 478.8,
+        "tool_cpu_sec": 1086.208,
+        "usd": null,
+        "wall_sec": 10467.01
+      },
+      "d_star": {
+        "drc": 1,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 1284.685533,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "model_swap": true,
+      "proxy_requests": 396,
+      "ratchet_promoted": false,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-low-power-line-driver-pvt-layout-s0",
+      "score_is_lower_bound": false,
+      "seed": 0,
+      "status": "evaluated",
+      "t_soft_stop": true,
+      "task_id": "sky130-adb-low-power-line-driver-pvt-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10467.01
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 1,
+      "cost": {
+        "cached_tokens": 2196608,
+        "input_tokens": 22168671,
+        "output_tokens": 1608033,
+        "peak_ram_mb": 463.4,
+        "tool_cpu_sec": 642.259,
+        "usd": null,
+        "wall_sec": 10543.92
+      },
+      "d_star": {
+        "drc": 0,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 1013.355928,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "model_swap": true,
+      "proxy_requests": 321,
+      "ratchet_promoted": false,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-low-power-line-driver-pvt-layout-s1",
+      "score_is_lower_bound": false,
+      "seed": 1,
+      "status": "evaluated",
+      "t_soft_stop": true,
+      "task_id": "sky130-adb-low-power-line-driver-pvt-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10543.92
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.0,
+      "arm": "H_base",
+      "client_disconnects": 1,
+      "cost": {
+        "cached_tokens": 1608960,
+        "input_tokens": 9386296,
+        "output_tokens": 819149,
+        "peak_ram_mb": 462.0,
+        "tool_cpu_sec": 309.433,
+        "usd": null,
+        "wall_sec": 5598.728
+      },
+      "d_star": {
+        "drc": "bottom",
+        "fill": "bottom",
+        "gds": 0,
+        "lvs": "bottom",
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": "bottom"
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 396.526241,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": null,
+      "model_swap": true,
+      "proxy_requests": 146,
+      "ratchet_promoted": false,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout-s0",
+      "score_is_lower_bound": false,
+      "seed": 0,
+      "status": "missing_submission",
+      "t_soft_stop": false,
+      "task_id": "sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 5598.728
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 2,
+      "cost": {
+        "cached_tokens": 3260544,
+        "input_tokens": 19393368,
+        "output_tokens": 1613489,
+        "peak_ram_mb": 462.4,
+        "tool_cpu_sec": 742.172,
+        "usd": null,
+        "wall_sec": 10686.463
+      },
+      "d_star": {
+        "drc": 0,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 867.596776,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "model_swap": true,
+      "proxy_requests": 302,
+      "ratchet_promoted": false,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout-s1",
+      "score_is_lower_bound": false,
+      "seed": 1,
+      "status": "evaluated",
+      "t_soft_stop": true,
+      "task_id": "sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10686.463
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 2,
+      "cost": {
+        "cached_tokens": 3782016,
+        "input_tokens": 42502680,
+        "output_tokens": 1437845,
+        "peak_ram_mb": 463.9,
+        "tool_cpu_sec": 1131.164,
+        "usd": null,
+        "wall_sec": 10686.09
+      },
+      "d_star": {
+        "drc": 1,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 1851.662142,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "model_swap": true,
+      "proxy_requests": 557,
+      "ratchet_promoted": false,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-tia-zt8k-bw750m-noise5p-sfdr70-power5m-pt-layout-s0",
+      "score_is_lower_bound": false,
+      "seed": 0,
+      "status": "evaluated",
+      "t_soft_stop": true,
+      "task_id": "sky130-adb-tia-zt8k-bw750m-noise5p-sfdr70-power5m-pt-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 10686.09
+    },
+    {
+      "C_star": 0,
+      "Y_star": 0.1,
+      "arm": "H_base",
+      "client_disconnects": 1,
+      "cost": {
+        "cached_tokens": 3304832,
+        "input_tokens": 32245044,
+        "output_tokens": 1312597,
+        "peak_ram_mb": 464.9,
+        "tool_cpu_sec": 1149.826,
+        "usd": null,
+        "wall_sec": 9647.591
+      },
+      "d_star": {
+        "drc": 0,
+        "fill": "bottom",
+        "gds": 1,
+        "lvs": 0,
+        "morph": "bottom",
+        "pex": "bottom",
+        "postsim": "bottom",
+        "shape": 1
+      },
+      "evaluation_error": false,
+      "exit_code": 0,
+      "gate_triggered": true,
+      "gateway_wait_seconds": 1300.502099,
+      "infra_category": null,
+      "infra_error": false,
+      "infra_reasons": [],
+      "m": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "model_swap": true,
+      "proxy_requests": 394,
+      "ratchet_promoted": false,
+      "run_id": "phase1c-dev-hbase-H_base-sky130-adb-tia-zt8k-bw750m-noise5p-sfdr70-power5m-pt-layout-s1",
+      "score_is_lower_bound": false,
+      "seed": 1,
+      "status": "evaluated",
+      "t_soft_stop": false,
+      "task_id": "sky130-adb-tia-zt8k-bw750m-noise5p-sfdr70-power5m-pt-layout",
+      "unrecovered_gateway_error": false,
+      "wall_sec": 9647.591
+    }
+  ],
+  "phase1c_all24_aggregates": {
+    "n_scored": 24,
+    "n_infra_error": 0,
+    "mean_Y_star": 0.163974166779875,
+    "seed_noise_floor": {
+      "advisory_reference_only": true,
+      "mean_within_task_sd": 0.0557075574710588,
+      "n_common_tasks": 12,
+      "note": "reference scale for reading gains; never a search or confirmation veto",
+      "seed_means": {
+        "0": 0.17971327506675003,
+        "1": 0.148235058493
+      },
+      "seeds": [
+        0,
+        1
+      ],
+      "sigma_seed": 0.02225846039895741
+    },
+    "taxonomy_counts": {
+      "capability_bound": 0,
+      "electrical_or_hidden_info_gap": 3,
+      "missing_or_invalid_gds": 1,
+      "public_mirror_execution_gap": 19
+    },
+    "mirror_concordance": {
+      "m_drc": {
+        "agree": 23,
+        "excluded_bottom_or_missing": 1,
+        "m0_d1_false_reject": 0,
+        "m1_d0_false_certify": 0
+      },
+      "m_fill": {
+        "agree": 5,
+        "excluded_bottom_or_missing": 19,
+        "m0_d1_false_reject": 0,
+        "m1_d0_false_certify": 0
+      },
+      "m_gds": {
+        "agree": 23,
+        "excluded_bottom_or_missing": 1,
+        "m0_d1_false_reject": 0,
+        "m1_d0_false_certify": 0
+      },
+      "m_lvs": {
+        "agree": 23,
+        "excluded_bottom_or_missing": 1,
+        "m0_d1_false_reject": 0,
+        "m1_d0_false_certify": 0
+      },
+      "m_morph": {
+        "agree": 5,
+        "excluded_bottom_or_missing": 19,
+        "m0_d1_false_reject": 0,
+        "m1_d0_false_certify": 0
+      },
+      "m_shape": {
+        "agree": 21,
+        "excluded_bottom_or_missing": 1,
+        "m0_d1_false_reject": 0,
+        "m1_d0_false_certify": 2
+      }
+    }
+  },
+  "phase2_bank_summary": {
+    "build_bank": {
+      "S_plus": {
+        "G_dev": 10,
+        "clusters_covered": 1
+      },
+      "bank": "/localdata/<USER>/ssap-alw-state/bank/b_dev.jsonl",
+      "n_samples": 24,
+      "written": 24
+    },
+    "calibrate_eps": {
+      "checker": "m_fill",
+      "eps": 0.0,
+      "n_samples": 49
+    },
+    "screen_hbase": {
+      "class1": {
+        "m_drc": {
+          "blind_aggregate": {
+            "clusters_covered": 3,
+            "n_fp": 0,
+            "n_pass": 14,
+            "n_samples": 14,
+            "n_tp": 0
+          },
+          "checker": "m_drc",
+          "checks": {
+            "bidirectional_violations": 0,
+            "certified_on_bottom_with_lvs_pass": 0,
+            "coverage_S_plus_k": 9,
+            "directional_violations": 0,
+            "n_S_minus_k": 0,
+            "n_S_plus_k": 25
+          },
+          "class": 1,
+          "n_checked": 48,
+          "n_unchecked": 1,
+          "ok": true,
+          "visible": {
+            "n_samples": 11,
+            "violating_sample_ids": []
+          }
+        },
+        "m_fill": {
+          "blind_aggregate": {
+            "clusters_covered": 2,
+            "n_fp": 0,
+            "n_pass": 12,
+            "n_samples": 12,
+            "n_tp": 0
+          },
+          "checker": "m_fill",
+          "checks": {
+            "bidirectional_violations": 0,
+            "certified_on_bottom_with_lvs_pass": 0,
+            "coverage_S_plus_k": 2,
+            "directional_violations": 0,
+            "n_S_minus_k": 0,
+            "n_S_plus_k": 12
+          },
+          "class": 1,
+          "n_checked": 48,
+          "n_unchecked": 1,
+          "ok": true,
+          "visible": {
+            "n_samples": 0,
+            "violating_sample_ids": []
+          }
+        },
+        "m_gds": {
+          "blind_aggregate": {
+            "clusters_covered": 3,
+            "n_fp": 4,
+            "n_pass": 22,
+            "n_samples": 26,
+            "n_tp": 0
+          },
+          "checker": "m_gds",
+          "checks": {
+            "bidirectional_violations": 0,
+            "certified_on_bottom_with_lvs_pass": 0,
+            "coverage_S_plus_k": 10,
+            "directional_violations": 6,
+            "n_S_minus_k": 0,
+            "n_S_plus_k": 48
+          },
+          "class": 1,
+          "n_checked": 48,
+          "n_unchecked": 1,
+          "ok": false,
+          "visible": {
+            "n_samples": 22,
+            "violating_sample_ids": [
+              "phase1c-dev-hbase-H_base-sky130-adb-fd-sampling-feedback-ota-gain1-settling40ns-noise300uv-pvt-mc-layout-s0:terminal:gds_renamed_top",
+              "phase1c-dev-hbase-H_base-sky130-adb-fd-sampling-feedback-ota-gain1-settling40ns-noise300uv-pvt-mc-layout-s0:terminal:gds_truncated"
+            ]
+          }
+        },
+        "m_lvs": {
+          "blind_aggregate": {
+            "clusters_covered": 2,
+            "n_fp": 0,
+            "n_pass": 17,
+            "n_samples": 17,
+            "n_tp": 0
+          },
+          "checker": "m_lvs",
+          "checks": {
+            "bidirectional_violations": 0,
+            "certified_on_bottom_with_lvs_pass": 0,
+            "coverage_S_plus_k": 2,
+            "directional_violations": 0,
+            "n_S_minus_k": null,
+            "n_S_plus_k": 17
+          },
+          "class": 1,
+          "n_checked": 48,
+          "n_unchecked": 1,
+          "ok": true,
+          "visible": {
+            "n_samples": 0,
+            "violating_sample_ids": []
+          }
+        },
+        "m_morph": {
+          "blind_aggregate": {
+            "clusters_covered": 2,
+            "n_fp": 0,
+            "n_pass": 17,
+            "n_samples": 17,
+            "n_tp": 0
+          },
+          "checker": "m_morph",
+          "checks": {
+            "bidirectional_violations": 0,
+            "certified_on_bottom_with_lvs_pass": 0,
+            "coverage_S_plus_k": 2,
+            "directional_violations": 0,
+            "n_S_minus_k": 0,
+            "n_S_plus_k": 17
+          },
+          "class": 1,
+          "n_checked": 48,
+          "n_unchecked": 1,
+          "ok": true,
+          "visible": {
+            "n_samples": 0,
+            "violating_sample_ids": []
+          }
+        },
+        "m_shape": {
+          "blind_aggregate": {
+            "clusters_covered": 3,
+            "n_fp": 0,
+            "n_pass": 16,
+            "n_samples": 16,
+            "n_tp": 0
+          },
+          "checker": "m_shape",
+          "checks": {
+            "bidirectional_violations": 0,
+            "certified_on_bottom_with_lvs_pass": 0,
+            "coverage_S_plus_k": 10,
+            "directional_violations": 0,
+            "n_S_minus_k": null,
+            "n_S_plus_k": 33
+          },
+          "class": 1,
+          "n_checked": 48,
+          "n_unchecked": 1,
+          "ok": true,
+          "visible": {
+            "n_samples": 17,
+            "violating_sample_ids": []
+          }
+        }
+      },
+      "class1_ok": false,
+      "class2": {
+        "advisory_aspect_gt_3": {
+          "blind_aggregate": {
+            "clusters_covered": 3,
+            "n_fp": 0,
+            "n_pass": 22,
+            "n_samples": 26,
+            "n_tp": 4
+          },
+          "checker": "advisory_aspect_gt_3",
+          "checks": {
+            "k_FP_S_plus": 0,
+            "k_TP_blind": 4,
+            "n_S_plus": 3,
+            "overwrite_authority": false
+          },
+          "class": 2,
+          "ok": true,
+          "visible": {
+            "n_samples": 23,
+            "violating_sample_ids": [
+              "phase1c-dev-hbase-H_base-sky130-adb-fd-two-stage-miller-opamp-gain60-pm60-noise50uv-pvt-layout-s0:terminal",
+              "phase1c-dev-hbase-H_base-sky130-adb-fd-two-stage-miller-opamp-gain60-pm60-noise50uv-pvt-layout-s1:terminal"
+            ]
+          }
+        }
+      },
+      "class2_ok": true,
+      "coverage": {
+        "S_plus": {
+          "G_dev": 10,
+          "clusters_covered": 1
+        },
+        "by_source_kind": {
+          "synthetic_neg": 16,
+          "synthetic_pos": 9,
+          "terminal": 24
+        },
+        "n_S_plus": 3,
+        "n_total": 49,
+        "per_criterion": {
+          "m_drc": {
+            "S_minus_k": {
+              "G_dev": 10,
+              "clusters_covered": 0
+            },
+            "S_plus": {
+              "G_dev": 10,
+              "clusters_covered": 1
+            },
+            "S_plus_k": {
+              "G_dev": 10,
+              "clusters_covered": 9
+            },
+            "n_S_minus_k": 0,
+            "n_S_plus_k": 25,
+            "n_bottom_k": 1
+          },
+          "m_fill": {
+            "S_minus_k": {
+              "G_dev": 10,
+              "clusters_covered": 0
+            },
+            "S_plus": {
+              "G_dev": 10,
+              "clusters_covered": 1
+            },
+            "S_plus_k": {
+              "G_dev": 10,
+              "clusters_covered": 2
+            },
+            "n_S_minus_k": 0,
+            "n_S_plus_k": 12,
+            "n_bottom_k": 32
+          },
+          "m_gds": {
+            "S_minus_k": {
+              "G_dev": 10,
+              "clusters_covered": 1
+            },
+            "S_plus": {
+              "G_dev": 10,
+              "clusters_covered": 1
+            },
+            "S_plus_k": {
+              "G_dev": 10,
+              "clusters_covered": 10
+            },
+            "n_S_minus_k": 1,
+            "n_S_plus_k": 48,
+            "n_bottom_k": 0
+          },
+          "m_lvs": {
+            "S_minus_k": {
+              "G_dev": 10,
+              "clusters_covered": 0
+            },
+            "S_plus": {
+              "G_dev": 10,
+              "clusters_covered": 1
+            },
+            "S_plus_k": {
+              "G_dev": 10,
+              "clusters_covered": 2
+            },
+            "n_S_minus_k": 0,
+            "n_S_plus_k": 17,
+            "n_bottom_k": 1
+          },
+          "m_morph": {
+            "S_minus_k": {
+              "G_dev": 10,
+              "clusters_covered": 0
+            },
+            "S_plus": {
+              "G_dev": 10,
+              "clusters_covered": 1
+            },
+            "S_plus_k": {
+              "G_dev": 10,
+              "clusters_covered": 2
+            },
+            "n_S_minus_k": 0,
+            "n_S_plus_k": 17,
+            "n_bottom_k": 32
+          },
+          "m_shape": {
+            "S_minus_k": {
+              "G_dev": 10,
+              "clusters_covered": 4
+            },
+            "S_plus": {
+              "G_dev": 10,
+              "clusters_covered": 1
+            },
+            "S_plus_k": {
+              "G_dev": 10,
+              "clusters_covered": 10
+            },
+            "n_S_minus_k": 6,
+            "n_S_plus_k": 33,
+            "n_bottom_k": 1
+          }
+        }
+      },
+      "eps": {
+        "m_fill": 0.0
+      }
+    },
+    "synthesize_bank_counts": {
+      "bank_size": 49,
+      "dry_run": false,
+      "inner_cert": true,
+      "n_added": 25,
+      "n_existing": 0,
+      "n_inner_cert": 25,
+      "n_skipped_infra": 0,
+      "n_source_errors": 0,
+      "n_sources": 3,
+      "n_sources_blind_clusters": 2,
+      "n_variants_planned": 25,
+      "n_verified": 25,
+      "n_written": 25,
+      "verifier": true
+    }
+  }
+}

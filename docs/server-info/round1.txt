@@ -1,0 +1,192 @@
+~/autoalw/ssap$ [ -f "$R" ] && cat "$R" || ls -ld "/localdata/$(whoami)/ssap-alw-state/loop/round_1/stage1/repairs"
+{
+ "attempts": [
+  {
+   "attempt": 5,
+   "candidate_id": null,
+   "evaluation_path": null,
+   "mutation_class": null,
+   "reason": "proposal_missing_or_invalid_json",
+   "stage": "proposal"
+  },
+  {
+   "attempt": 6,
+   "candidate_id": "repair-cert-diagnosis",
+   "evaluation_path": "path1",
+   "mutation_class": 4,
+   "reason": "stage0_passed",
+   "stage": "passed"
+  }
+ ],
+ "candidate": {
+  "candidate_id": "repair-cert-diagnosis",
+  "checker": null,
+  "evaluation_path": "path1",
+  "mutation_class": 4
+ },
+ "evaluation": {
+  "blind_aggregate": {
+   "n_divergent": 4,
+   "n_trials": 8,
+   "sum_delta_Y": -0.06666666666666668
+  },
+  "llm_calls": 2792,
+  "n_divergent": 20,
+  "n_trials": 24,
+  "n_unresolved": 0,
+  "path": "path1",
+  "promoted": true,
+  "reason": "promoted",
+  "sum_delta_Y": 0.05507276603066664,
+  "verifier_calls": 18,
+  "visible_trials": [
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 0,
+    "task_id": "sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout",
+    "verdict": "Neutral"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 1,
+    "task_id": "sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout",
+    "verdict": "Neutral"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 0,
+    "task_id": "sky130-adb-complementary-folded-cascode-ab-opamp-pvt-layout",
+    "verdict": "Neutral"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 1,
+    "task_id": "sky130-adb-complementary-folded-cascode-ab-opamp-pvt-layout",
+    "verdict": "Neutral"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 0,
+    "task_id": "sky130-adb-fd-sampling-feedback-ota-gain1-settling40ns-noise300uv-pvt-mc-layout",
+    "verdict": "Neutral"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 1,
+    "task_id": "sky130-adb-fd-sampling-feedback-ota-gain1-settling40ns-noise300uv-pvt-mc-layout",
+    "verdict": "Neutral"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 0,
+    "task_id": "sky130-adb-fd-sampling-feedback-ota-gain8-settling10ns-noise1mv-pvt-mc-layout",
+    "verdict": "Neutral"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 1,
+    "task_id": "sky130-adb-fd-sampling-feedback-ota-gain8-settling10ns-noise1mv-pvt-mc-layout",
+    "verdict": "Neutral"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 0,
+    "task_id": "sky130-adb-fd-two-stage-miller-opamp-gain60-pm60-noise50uv-pvt-layout",
+    "verdict": "Neutral"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 1,
+    "task_id": "sky130-adb-fd-two-stage-miller-opamp-gain60-pm60-noise50uv-pvt-layout",
+    "verdict": "Neutral"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 0,
+    "task_id": "sky130-adb-low-power-line-driver-pvt-layout",
+    "verdict": "Neutral"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 1,
+    "task_id": "sky130-adb-low-power-line-driver-pvt-layout",
+    "verdict": "Neutral"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.03333333333333333,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 0,
+    "task_id": "sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout",
+    "verdict": "Rescued"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 1,
+    "task_id": "sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout",
+    "verdict": "Neutral"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.08840609936399998,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 0,
+    "task_id": "sky130-adb-tia-zt8k-bw750m-noise5p-sfdr70-power5m-pt-layout",
+    "verdict": "Rescued"
+   },
+   {
+    "cand_triggered": true,
+    "delta_Y": 0.0,
+    "divergent": true,
+    "inc_triggered": true,
+    "seed": 1,
+    "task_id": "sky130-adb-tia-zt8k-bw750m-noise5p-sfdr70-power5m-pt-layout",
+    "verdict": "Neutral"
+   }
+  ]
+ },
+ "h_inc_after": "H_base+repair-cert-diagnosis",
+ "h_inc_before": "H_base",
+ "round": 1,
+ "schema_version": 1

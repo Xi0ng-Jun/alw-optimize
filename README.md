@@ -1,5 +1,10 @@
 # SSAP / MCR
 
+> **Handoff snapshot (2026-11-26)** — this repository is the cross-machine handoff of the ALW
+> experiments at commit `58e3bf2`. Start at [`HANDOFF.md`](HANDOFF.md) for the current state, the
+> server-side test-set run and a material index; the original handoff instruction is kept verbatim
+> in [`docs/handoff-2026-11-26.md`](docs/handoff-2026-11-26.md).
+
 Mirror-Certified Ratchet (`MCR`, v2) for optimizing frozen-model agent harnesses on stateful, signoff-gated engineering tasks.
 
 In stateful engineering domains (such as analog IC layout and physical verification), an agent modifies workspace files through external EDA tools while final acceptance is decided by an isolated multi-criteria signoff verifier $\mathcal{E}^\star(x, W) = (Y^\star, C^\star, \mathbf{d}^\star)$. Request-level proxy replay breaks on stateful files, multi-threaded tool logs, and post-processing hooks, while naive mid-trajectory rollback blocks valid multi-step edits and decorative statistical gates reject genuine improvements on heavy, small-cluster benchmarks. MCR v2 centers on three core invariants:
@@ -10,6 +15,7 @@ In stateful engineering domains (such as analog IC layout and physical verificat
 
 ## Documentation
 
+- **Handoff (2026-11-26)**: [HANDOFF.md](HANDOFF.md) (entry point, status, server commands); original instruction: [docs/handoff-2026-11-26.md](docs/handoff-2026-11-26.md)
 - **MCR v2 Formal & Plain Specifications**: [docs/mcr-formal.tex](docs/mcr-formal.tex), [docs/mcr-formal.pdf](docs/mcr-formal.pdf), [docs/mcr-plain.md](docs/mcr-plain.md)
 - **AnalogLayoutWorld (`ALW`) Instantiation & Rollout**:
   - Formal instantiation & $H_{\mathrm{base}}$ contract: [docs/alw-mcr-instantiation.md](docs/alw-mcr-instantiation.md)

@@ -1,0 +1,299 @@
+{
+  "schema_version": 3,
+  "scoring_version": "analoglayoutworld-paper-v1",
+  "status": "missing_submission",
+  "profile": "full",
+  "pipeline_completed": true,
+  "tool_error": false,
+  "evaluation_error": false,
+  "design_passed": false,
+  "electrical_scope": "selected_evaluation",
+  "evaluation_case_ids": [
+    "cmrr__tt__1.8__27",
+    "op_ac_noise__tt__1.8__27",
+    "psrr_minus__tt__1.8__27",
+    "psrr_plus__tt__1.8__27"
+  ],
+  "electrical_coverage": null,
+  "original_spec_passed": null,
+  "unassessed_requirements": [],
+  "requested_profile_passed": false,
+  "electrical_eligible": false,
+  "submission_present": false,
+  "artifact_contract_complete": false,
+  "input_integrity_error": false,
+  "extraction_qualification": "provisional",
+  "nf_audit": "not_implemented",
+  "source_regeneration_checked": false,
+  "snapshot_hashes": {
+    "task": {
+      "circuit.spice": "aa8f71489b4dd819f3c6d0ea4883847f1124ffb071ef5a54e1de4271afe39aae",
+      "constraints.json": "a265cab127a966892fc60bc34b20da7d172c7966eb2c3abaa0efb1fc46a819f4",
+      "identity.json": "16e7285a214d4664ed0b27f0eff7984216997438e9f889e7d3389937f9a56b11",
+      "testbench/adapter.py": "b4fcc5f34f7bc048c7dcaf47f5dc9cc065e8d9f5bfb93793fb6ec5a1674910c8",
+      "testbench/measurement.json": "76aaa9c4a598891c1c96be3edefc0567b477b17fd1c46758534832bb2608f5d9",
+      "testbench/upstream/benches/tb_cmrr.spi": "f4195b38b0b979405b083db62fadf5428f7951c2001bae00a87cd24b633fc4be",
+      "testbench/upstream/benches/tb_op_ac_noise.spi": "6e2f7bfa2fd6418da8dd69c90c2c8ce533c7d020f44ee3935983d7aeda7e31e7",
+      "testbench/upstream/benches/tb_psrr_minus.spi": "a5f159e021add86e899e362223ff7ff8a8051e021f4ee706d6112131d15de62b",
+      "testbench/upstream/benches/tb_psrr_plus.spi": "8c8646a8b2b51d545152532038d4328c4efe61242edba42f358db77f3a4150db",
+      "testbench/upstream/utils.py": "8f9909aa283429e11d3d5b55b33d5e55d5c54f4bad33aaa599f1c8a35a99e299",
+      "testbench/upstream/verify.py": "04905dd2649e600842260bf61108d38a94f1bd351b0f490cfcf84ff7f0c4ba39"
+    }
+  },
+  "artifact_issues": [
+    "Required submission/layout.gds is missing"
+  ],
+  "stages": {
+    "drc": {
+      "status": "skipped",
+      "value": null,
+      "reason": "Submission GDS is unavailable",
+      "seconds": 0,
+      "invocation": null,
+      "result_file": null,
+      "tool_result": null,
+      "logs": []
+    },
+    "lvs": {
+      "status": "skipped",
+      "value": null,
+      "reason": "Submission GDS is unavailable",
+      "seconds": 0,
+      "invocation": null,
+      "result_file": null,
+      "tool_result": null,
+      "logs": []
+    },
+    "area": {
+      "status": "skipped",
+      "value": null,
+      "reason": "Submission GDS is unavailable",
+      "seconds": 0,
+      "invocation": null,
+      "result_file": null,
+      "tool_result": null,
+      "logs": [],
+      "utilization_eligible": false
+    },
+    "quality": {
+      "status": "skipped",
+      "value": null,
+      "reason": "Submission GDS is unavailable",
+      "seconds": 0,
+      "invocation": null,
+      "result_file": null,
+      "tool_result": null,
+      "logs": []
+    },
+    "pex": {
+      "status": "skipped",
+      "value": null,
+      "reason": "Submission GDS is unavailable",
+      "seconds": 0,
+      "invocation": null,
+      "result_file": null,
+      "tool_result": null,
+      "logs": []
+    },
+    "postsim": {
+      "status": "skipped",
+      "value": null,
+      "reason": "Submission GDS is unavailable",
+      "seconds": 0,
+      "invocation": null,
+      "result_file": null,
+      "tool_result": null,
+      "logs": [],
+      "eligible": false
+    }
+  },
+  "reward": {
+    "reward": 0.0
+  },
+  "score": 0.0,
+  "score_valid": true,
+  "limitations": [
+    "Provisional extraction: the current Magic RC configuration retains coupling capacitance while also allocating related capacitance to distributed substrate capacitance. Qualification is unresolved; results are not certified signoff. C-only is an approximation and cannot replace RC evaluation.",
+    "LVS does not independently audit nf or original logical-instance grouping.",
+    "Source is archived, not executed; regeneration is not verified.",
+    "Raw extracted-device-area ratio is retained; scored area credit is capped at its target. TT is not full-specification coverage.",
+    "Electrical scoring covers the explicitly selected public testbench cases. A passing benchmark score does not establish the untested original SPEC."
+  ],
+  "timeout_policy": {
+    "per_tool_seconds": {
+      "drc": 180,
+      "lvs": 180,
+      "area": 180,
+      "quality": 180,
+      "pex": 180,
+      "postsim": 600
+    }
+  },
+  "task_name": "sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout",
+  "postsim_group_cases": {
+    "required_case_count": 1,
+    "passed_case_count": 0,
+    "pass_fraction": 0.0,
+    "all_passed": false,
+    "case_results": {
+      "tt__1.8__27": {
+        "status": "missing",
+        "passed": false,
+        "missing_measurements": [
+          "source_checks"
+        ],
+        "failed_measurements": []
+      }
+    }
+  },
+  "postsim_cases": {
+    "required_case_count": 1,
+    "passed_case_count": 0,
+    "pass_fraction": 0.0,
+    "all_passed": false,
+    "case_results": {
+      "tt__1.8__27": {
+        "status": "missing",
+        "passed": false,
+        "missing_measurements": [
+          "source_checks"
+        ],
+        "failed_measurements": []
+      }
+    }
+  },
+  "scoring_config_sha256": "8cb1bc1b25443497c84605ab1a3b66ce5773b99b7ced4adfc6375c7ac9992690",
+  "scoring_parameters": {
+    "weights": {
+      "gds": 0.1,
+      "lvs": 0.1,
+      "drc": 0.1,
+      "area": 0.2,
+      "quality": 0.1,
+      "postsim": 0.4
+    },
+    "quality_weights": {
+      "matching": 0.4,
+      "critical": 0.45,
+      "power": 0.15
+    },
+    "gamma": 2,
+    "q_max": 3.0,
+    "u_min": 0.1,
+    "u_target": 0.95,
+    "quality_saturation": {
+      "matching": 0.8,
+      "critical": 0.8,
+      "power": 0.9
+    }
+  },
+  "scoring_inputs": {
+    "submission_present": false,
+    "geometry_valid": false,
+    "shape_ratio": null,
+    "shape_ok": false,
+    "raw_area_ratio": null,
+    "low_fill": null,
+    "meaningless": null,
+    "layout_gate_known": false,
+    "layout_gate_blocked": false,
+    "lvs_pass": false,
+    "drc_pass": false,
+    "pex_success": false,
+    "postsim_case_fraction": 0.0,
+    "postsim_coverage": 0.0,
+    "postsim_all_passed": false,
+    "quality_rate": 0.0,
+    "quality_complete": false,
+    "quality_policy_credit": false,
+    "morphology_policy_exempt": false
+  },
+  "score_complete": true,
+  "score_is_lower_bound": false,
+  "score_pending_reasons": [],
+  "score_invalid_reasons": [],
+  "score_components": {
+    "gds": 0.0,
+    "lvs": 0.0,
+    "drc": 0.0,
+    "area": 0.0,
+    "quality": 0.0,
+    "postsim": 0.0
+  },
+  "score_weights": {
+    "gds": 0.1,
+    "lvs": 0.1,
+    "drc": 0.1,
+    "area": 0.2,
+    "quality": 0.1,
+    "postsim": 0.4
+  },
+  "shape_ratio": null,
+  "shape_ok": false,
+  "raw_area_ratio": null,
+  "quality_summary": {
+    "status": "incomplete",
+    "complete": false,
+    "value": 0.0,
+    "base": 0.0,
+    "coupling_penalty": 1.0,
+    "coverage": 0.0,
+    "missing_items": [
+      "matching",
+      "critical",
+      "power",
+      "coupling_penalty"
+    ],
+    "subscores": {
+      "matching": {
+        "status": "missing",
+        "weight": 0.4,
+        "reason": "Measurement unavailable"
+      },
+      "critical": {
+        "status": "missing",
+        "weight": 0.45,
+        "reason": "Measurement unavailable"
+      },
+      "power": {
+        "status": "missing",
+        "weight": 0.15,
+        "reason": "Measurement unavailable"
+      }
+    }
+  },
+  "postsim_summary": {
+    "pass_fraction": 0.0,
+    "reported_pass_fraction": 0.0,
+    "coverage": 0.0,
+    "complete": false,
+    "all_passed": false
+  },
+  "bonuses_eligible": false,
+  "area_eligible": false,
+  "diagnostics": {
+    "submission_present": false,
+    "geometry_valid": false,
+    "shape_ratio": null,
+    "shape_ok": false,
+    "raw_area_ratio": null,
+    "low_fill": null,
+    "meaningless": null,
+    "layout_gate_known": false,
+    "layout_gate_blocked": false,
+    "lvs_pass": false,
+    "drc_pass": false,
+    "pex_success": false,
+    "postsim_case_fraction": 0.0,
+    "postsim_coverage": 0.0,
+    "postsim_all_passed": false,
+    "quality_rate": 0.0,
+    "quality_complete": false,
+    "quality_policy_credit": false,
+    "morphology_policy_exempt": false,
+    "area_completion": 0.0,
+    "score_pending_reasons": [],
+    "postsim_requested_pass": 0
+  },
+  "seconds": 0.02
+}

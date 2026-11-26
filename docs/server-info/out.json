@@ -1,0 +1,485 @@
+{
+ "lr": [
+  {
+   "job_name": "phase1b-3tasks-H_base-sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout-s0",
+   "task_id": "sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout",
+   "seed": 0,
+   "arm": "H_base",
+   "model": "ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public",
+   "agent_image": "ssap-alw-agent:2.1.302",
+   "job_config": "/localdata/<USER>/ssap-alw-state/jobs/phase1b-3tasks/configs/phase1b-3tasks-H_base-sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout-s0.json",
+   "exit_code": 0,
+   "proxy": {
+    "trial_id": "phase1b-3tasks-H_base-sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout-s0",
+    "trial_index": 0,
+    "key_slot": 0,
+    "proxy_requests": 226,
+    "input_tokens": 12036810,
+    "output_tokens": 1623678,
+    "cached_tokens": 2108288,
+    "cache_creation_tokens": 0,
+    "upstream_models_seen": [
+     "deepseek-v4-1-flash-261017"
+    ],
+    "request_models_seen": [
+     "ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public"
+    ],
+    "http_429_count": 0,
+    "http_5xx_count": 0,
+    "unrecovered_gateway_error": true,
+    "unrecovered_gateway_errors": 1,
+    "gateway_wait_seconds": 795.04211,
+    "llm_stream_seconds": 8760.624281,
+    "retries": 0,
+    "model_swap": true
+   }
+  },
+  {
+   "job_name": "phase1b-3tasks-H_base-sky130-local-comparator-layout-s0",
+   "task_id": "sky130-local-comparator-layout",
+   "seed": 0,
+   "arm": "H_base",
+   "model": "ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public",
+   "agent_image": "ssap-alw-agent:2.1.302",
+   "job_config": "/localdata/<USER>/ssap-alw-state/jobs/phase1b-3tasks/configs/phase1b-3tasks-H_base-sky130-local-comparator-layout-s0.json",
+   "exit_code": 0,
+   "proxy": {
+    "trial_id": "phase1b-3tasks-H_base-sky130-local-comparator-layout-s0",
+    "trial_index": 1,
+    "key_slot": 0,
+    "proxy_requests": 319,
+    "input_tokens": 20996697,
+    "output_tokens": 1404099,
+    "cached_tokens": 2682880,
+    "cache_creation_tokens": 0,
+    "upstream_models_seen": [
+     "deepseek-v4-1-flash-261017"
+    ],
+    "request_models_seen": [
+     "ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public"
+    ],
+    "http_429_count": 0,
+    "http_5xx_count": 0,
+    "unrecovered_gateway_error": true,
+    "unrecovered_gateway_errors": 1,
+    "gateway_wait_seconds": 979.25411,
+    "llm_stream_seconds": 7697.490057,
+    "retries": 0,
+    "model_swap": true
+   }
+  },
+  {
+   "job_name": "phase1b-3tasks-H_base-sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout-s0",
+   "task_id": "sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout",
+   "seed": 0,
+   "arm": "H_base",
+   "model": "ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public",
+   "agent_image": "ssap-alw-agent:2.1.302",
+   "job_config": "/localdata/<USER>/ssap-alw-state/jobs/phase1b-3tasks/configs/phase1b-3tasks-H_base-sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout-s0.json",
+   "exit_code": 0,
+   "proxy": {
+    "trial_id": "phase1b-3tasks-H_base-sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout-s0",
+    "trial_index": 2,
+    "key_slot": 0,
+    "proxy_requests": 363,
+    "input_tokens": 26317116,
+    "output_tokens": 1337439,
+    "cached_tokens": 3613696,
+    "cache_creation_tokens": 0,
+    "upstream_models_seen": [
+     "deepseek-v4-1-flash-261017"
+    ],
+    "request_models_seen": [
+     "ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public"
+    ],
+    "http_429_count": 0,
+    "http_5xx_count": 0,
+    "unrecovered_gateway_error": true,
+    "unrecovered_gateway_errors": 1,
+    "gateway_wait_seconds": 1215.525896,
+    "llm_stream_seconds": 7495.886548,
+    "retries": 0,
+    "model_swap": true
+   }
+  }
+ ],
+ "asum": [
+  {
+   "schema_version": 1,
+   "task_id": "sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout",
+   "seed": "0",
+   "version_id": "H_base",
+   "model_id": "ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public",
+   "key_slot": null,
+   "agent_image": "ssap-alw-agent:2.1.302",
+   "watermarks": {
+    "t_max_sec": 10800.0,
+    "t_warn_sec": 9000.0,
+    "t_soft_sec": 9900.0,
+    "delta_t_rep_sec": 900.0,
+    "delta_s_rep_turns": 15,
+    "min_remaining_for_repair_sec": 180.0,
+    "tail_buffer_sec": 120.0,
+    "kill_grace_sec": 5.0
+   },
+   "pre_repair_gds_sha256": "8f46f2486004563c125c9cb3e2dcce74012a9e4cec0baa2d5515910ad79948f8",
+   "post_repair_gds_sha256": "8f46f2486004563c125c9cb3e2dcce74012a9e4cec0baa2d5515910ad79948f8",
+   "submission_gds_sha256": "8f46f2486004563c125c9cb3e2dcce74012a9e4cec0baa2d5515910ad79948f8",
+   "submission_src_tree_sha256": "19b49d0409817c214c6d395830e38f8e957f258e0c1f50ff0b2d6baca8c7f44c",
+   "draft_latest_gds_sha256": "8f46f2486004563c125c9cb3e2dcce74012a9e4cec0baa2d5515910ad79948f8",
+   "m_pre": [
+    1,
+    0,
+    1,
+    0,
+    0,
+    1
+   ],
+   "u_pre": [
+    0.0,
+    -1.0,
+    0.0,
+    null,
+    null,
+    0.0
+   ],
+   "raw_u_pre": [
+    0.0,
+    -1.0,
+    2.827206540550218,
+    null,
+    null,
+    -0.0
+   ],
+   "m_post": [
+    1,
+    0,
+    1,
+    0,
+    0,
+    1
+   ],
+   "u_post": [
+    0.0,
+    -1.0,
+    0.0,
+    null,
+    null,
+    0.0
+   ],
+   "raw_u_post": [
+    0.0,
+    -1.0,
+    2.827206540550218,
+    null,
+    null,
+    -0.0
+   ],
+   "gate_triggered": true,
+   "trigger_reasons": [
+    "m_best_not_all_certified"
+   ],
+   "repair_ran": true,
+   "ratchet_promoted": false,
+   "promote_reason": "no_new_candidate",
+   "phase_a_reused": false,
+   "phase_b_invoked": true,
+   "model_request_diverged": null,
+   "submission_artifact_diverged": null,
+   "infra_error": false,
+   "infra_reason": null,
+   "outer_metrics": {
+    "Y_star": null,
+    "C_star": null,
+    "d_star": null,
+    "score_is_lower_bound": null,
+    "evaluation_error": null
+   },
+   "cost_ledger": {
+    "input_tokens": null,
+    "output_tokens": null,
+    "cached_tokens": null,
+    "usd": null,
+    "tool_cpu_sec": 1028.113,
+    "peak_ram_mb": 527.3,
+    "wall_sec": 9941.971
+   }
+  },
+  {
+   "schema_version": 1,
+   "task_id": "sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout",
+   "seed": "0",
+   "version_id": "H_base",
+   "model_id": "ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public",
+   "key_slot": null,
+   "agent_image": "ssap-alw-agent:2.1.302",
+   "watermarks": {
+    "t_max_sec": 10800.0,
+    "t_warn_sec": 9000.0,
+    "t_soft_sec": 9900.0,
+    "delta_t_rep_sec": 900.0,
+    "delta_s_rep_turns": 15,
+    "min_remaining_for_repair_sec": 180.0,
+    "tail_buffer_sec": 120.0,
+    "kill_grace_sec": 5.0
+   },
+   "pre_repair_gds_sha256": null,
+   "post_repair_gds_sha256": null,
+   "submission_gds_sha256": null,
+   "submission_src_tree_sha256": null,
+   "draft_latest_gds_sha256": null,
+   "m_pre": null,
+   "u_pre": null,
+   "raw_u_pre": null,
+   "m_post": null,
+   "u_post": null,
+   "raw_u_post": null,
+   "gate_triggered": true,
+   "trigger_reasons": [
+    "m_best_not_all_certified"
+   ],
+   "repair_ran": true,
+   "ratchet_promoted": false,
+   "promote_reason": "no_new_candidate",
+   "phase_a_reused": false,
+   "phase_b_invoked": true,
+   "model_request_diverged": null,
+   "submission_artifact_diverged": null,
+   "infra_error": false,
+   "infra_reason": null,
+   "outer_metrics": {
+    "Y_star": null,
+    "C_star": null,
+    "d_star": null,
+    "score_is_lower_bound": null,
+    "evaluation_error": null
+   },
+   "cost_ledger": {
+    "input_tokens": null,
+    "output_tokens": null,
+    "cached_tokens": null,
+    "usd": null,
+    "tool_cpu_sec": 381.163,
+    "peak_ram_mb": 462.9,
+    "wall_sec": 10067.992
+   }
+  },
+  {
+   "schema_version": 1,
+   "task_id": "sky130-local-comparator-layout",
+   "seed": "0",
+   "version_id": "H_base",
+   "model_id": "ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public",
+   "key_slot": null,
+   "agent_image": "ssap-alw-agent:2.1.302",
+   "watermarks": {
+    "t_max_sec": 10800.0,
+    "t_warn_sec": 9000.0,
+    "t_soft_sec": 9900.0,
+    "delta_t_rep_sec": 900.0,
+    "delta_s_rep_turns": 15,
+    "min_remaining_for_repair_sec": 180.0,
+    "tail_buffer_sec": 120.0,
+    "kill_grace_sec": 5.0
+   },
+   "pre_repair_gds_sha256": "f2f7ba33fcd939f82a8d0f6e1e5a2ae77e71ac5f08194fd7d1dc60770dd4a4d2",
+   "post_repair_gds_sha256": "f2f7ba33fcd939f82a8d0f6e1e5a2ae77e71ac5f08194fd7d1dc60770dd4a4d2",
+   "submission_gds_sha256": "f2f7ba33fcd939f82a8d0f6e1e5a2ae77e71ac5f08194fd7d1dc60770dd4a4d2",
+   "submission_src_tree_sha256": "4095dcf2f30c0929f89caea7c11fa50a40c9a5c3449eb90cc6fd4f2267c53640",
+   "draft_latest_gds_sha256": "f2f7ba33fcd939f82a8d0f6e1e5a2ae77e71ac5f08194fd7d1dc60770dd4a4d2",
+   "m_pre": [
+    1,
+    0,
+    1,
+    0,
+    0,
+    1
+   ],
+   "u_pre": [
+    0.0,
+    -1.0,
+    0.0,
+    null,
+    null,
+    0.0
+   ],
+   "raw_u_pre": [
+    0.0,
+    -1.0,
+    2.9911277142190054,
+    null,
+    null,
+    -0.0
+   ],
+   "m_post": [
+    1,
+    0,
+    1,
+    0,
+    0,
+    1
+   ],
+   "u_post": [
+    0.0,
+    -1.0,
+    0.0,
+    null,
+    null,
+    0.0
+   ],
+   "raw_u_post": [
+    0.0,
+    -1.0,
+    2.9911277142190054,
+    null,
+    null,
+    -0.0
+   ],
+   "gate_triggered": true,
+   "trigger_reasons": [
+    "m_best_not_all_certified"
+   ],
+   "repair_ran": true,
+   "ratchet_promoted": false,
+   "promote_reason": "no_new_candidate",
+   "phase_a_reused": false,
+   "phase_b_invoked": true,
+   "model_request_diverged": null,
+   "submission_artifact_diverged": null,
+   "infra_error": false,
+   "infra_reason": null,
+   "outer_metrics": {
+    "Y_star": null,
+    "C_star": null,
+    "d_star": null,
+    "score_is_lower_bound": null,
+    "evaluation_error": null
+   },
+   "cost_ledger": {
+    "input_tokens": null,
+    "output_tokens": null,
+    "cached_tokens": null,
+    "usd": null,
+    "tool_cpu_sec": 840.959,
+    "peak_ram_mb": 464.2,
+    "wall_sec": 9583.487
+   }
+  }
+ ],
+ "met": [
+  {
+   "task_name": "sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout",
+   "status": "evaluated",
+   "score": 0.1,
+   "design_passed": false,
+   "evaluation_error": false,
+   "score_is_lower_bound": false,
+   "seconds": 7.696,
+   "score_components": {
+    "gds": 0.1,
+    "lvs": 0.0,
+    "drc": 0.0,
+    "area": 0.0,
+    "quality": 0.0,
+    "postsim": 0.0
+   },
+   "scoring_inputs": {
+    "submission_present": true,
+    "geometry_valid": true,
+    "shape_ratio": 1.1727934594497822,
+    "shape_ok": true,
+    "raw_area_ratio": null,
+    "low_fill": null,
+    "meaningless": null,
+    "layout_gate_known": false,
+    "layout_gate_blocked": false,
+    "lvs_pass": false,
+    "drc_pass": true,
+    "pex_success": false,
+    "postsim_case_fraction": 0.0,
+    "postsim_coverage": 0.0,
+    "postsim_all_passed": false,
+    "quality_rate": 0.0,
+    "quality_complete": false,
+    "quality_policy_credit": false,
+    "morphology_policy_exempt": false
+   }
+  },
+  {
+   "task_name": "sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout",
+   "status": "missing_submission",
+   "score": 0.0,
+   "design_passed": false,
+   "evaluation_error": false,
+   "score_is_lower_bound": false,
+   "seconds": 0.021,
+   "score_components": {
+    "gds": 0.0,
+    "lvs": 0.0,
+    "drc": 0.0,
+    "area": 0.0,
+    "quality": 0.0,
+    "postsim": 0.0
+   },
+   "scoring_inputs": {
+    "submission_present": false,
+    "geometry_valid": false,
+    "shape_ratio": null,
+    "shape_ok": false,
+    "raw_area_ratio": null,
+    "low_fill": null,
+    "meaningless": null,
+    "layout_gate_known": false,
+    "layout_gate_blocked": false,
+    "lvs_pass": false,
+    "drc_pass": false,
+    "pex_success": false,
+    "postsim_case_fraction": 0.0,
+    "postsim_coverage": 0.0,
+    "postsim_all_passed": false,
+    "quality_rate": 0.0,
+    "quality_complete": false,
+    "quality_policy_credit": false,
+    "morphology_policy_exempt": false
+   }
+  },
+  {
+   "task_name": "sky130-local-comparator-layout",
+   "status": "evaluated",
+   "score": 0.1,
+   "design_passed": false,
+   "evaluation_error": false,
+   "score_is_lower_bound": false,
+   "seconds": 8.981,
+   "score_components": {
+    "gds": 0.1,
+    "lvs": 0.0,
+    "drc": 0.0,
+    "area": 0.0,
+    "quality": 0.0,
+    "postsim": 0.0
+   },
+   "scoring_inputs": {
+    "submission_present": true,
+    "geometry_valid": true,
+    "shape_ratio": 1.0088722857809946,
+    "shape_ok": true,
+    "raw_area_ratio": null,
+    "low_fill": null,
+    "meaningless": null,
+    "layout_gate_known": false,
+    "layout_gate_blocked": false,
+    "lvs_pass": false,
+    "drc_pass": true,
+    "pex_success": false,
+    "postsim_case_fraction": 0.0,
+    "postsim_coverage": 0.0,
+    "postsim_all_passed": false,
+    "quality_rate": 0.0,
+    "quality_complete": false,
+    "quality_policy_credit": false,
+    "morphology_policy_exempt": false
+   }
+  }
+ ]
+}

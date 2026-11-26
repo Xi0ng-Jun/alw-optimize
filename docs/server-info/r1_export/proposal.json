@@ -1,0 +1,11 @@
+{
+ "candidate_id": "repair-cert-diagnosis",
+ "mutation_class": 4,
+ "checker": null,
+ "d_star_key": null,
+ "bidirectional": false,
+ "evaluation_path": "path1",
+ "rationale": "All 14 archived best certs have m_lvs=0, so m_fill/m_morph stay unevaluated and only m_shape/m_drc can move; 7/14 are saturated at shape=1,drc=1. Phase B is capped at 900 s and 5/16 runs timed out. The repair prompt omits reasons already in best/cert.json details (lvs reason, drc marker categories), so each stateless seed re-derives them. repair.py now renders a diagnosis from certificate fields and registry depends_on edges: margin vs eps, components blocked by an uncertified prerequisite, recorded failure reasons, check dirs. Phase A and phase_b_args stay byte-identical; no new imports",
+ "class3_entry": null,
+ "class3_self_test": []
+}

@@ -1,0 +1,3 @@
+# Round 1 的候选补丁（占位）。
+# 明早运行 tools/fill_slots.py --round 1 --patch candidate.patch 后，
+# 本文件被真实补丁覆盖，并生成 slots/r1_patch.tex 供幻灯片读取。

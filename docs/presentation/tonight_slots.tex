@@ -1,0 +1,89 @@
+% tonight_slots.tex —— 明早唯一需要改的文件。
+%
+% 推荐做法：从服务器拷回两个文件后运行
+%   python3 tools/fill_slots.py --round 1 --report round_report_redacted.json --patch candidate.patch
+% 脚本只改写对应的 "%% BEGIN r1 ... %% END r1" 区块；也可以直接手改下面的值。
+\slot{asof}{2026-11-25 08:17}
+
+%% BEGIN r1 —— Round 1
+\slot{r1.state}{stage1}
+\slot{r1.candId}{repair-cert-diagnosis}
+\slot{r1.class}{4}
+\slot{r1.checker}{无（仅改抢修提示）}
+\slot{r1.path}{1}
+\slot{r1.attempts}{5}
+\slot{r1.rationale}{14 份保底证书 m\_lvs 全为 0（其中 7/14 长宽比与 DRC 已满分），但原抢修提示漏掉了 best/cert.json 已测出的 LVS 原因与 DRC 违规分类，导致无记忆进程重复摸排（5/16 超时）；现从证书与注册表依赖边自动渲染逐项诊断与检查目录。}
+\slot{r1.stageZero}{1}
+\slot{r1.nFiles}{1}
+\slot{r1.nPhaseA}{0}
+\slot{r1.smoke}{1}
+\slot{r1.patch}{slots/r1_patch}
+\slot{r1.patchFiles}{1}
+\slot{r1.patchAdded}{143}
+\slot{r1.patchRemoved}{1}
+\slot{r1.deltaKind}{sum}
+\slot{r1.delta}{}
+\slot{r1.nTrials}{24}
+\slot{r1.nDivergent}{46 / 60}
+\slot{r1.llmCalls}{}
+\slot{r1.blindDelta}{}
+\slot{r1.blindN}{1}
+\slot{r1.unresolved}{0}
+\slot{r1.rowsOmitted}{0}
+\slot{r1.reason}{重放中（已触发 13 次交卷更新）}
+\slot{r1.hIncAfter}{待剩余 14 种子收尾}
+\slotrow{r1}{\#2 推挽源随缓冲器}{0,1}{0.000}{s0/s1 更新交卷（s1 新增），仍卡 LVS}
+\slotrow{r1}{\#7 折叠共源共栅运放}{1}{0.000}{3/3 种子全更新交卷，仍卡 LVS}
+\slotrow{r1}{\#12 采样反馈 OTA，增益 8}{1}{0.000}{3/3 种子全更新交卷，仍卡 LVS}
+\slotrow{r1}{\#13 全差分两级 Miller 运放}{0}{0.000}{3/3 种子全更新交卷，仍卡 LVS}
+\slotrow{r1}{\#18 低功耗线驱动器}{1}{0.000}{新增交卷更新（基线 0），仍卡 LVS}
+%% END r1
+
+%% BEGIN r2 —— Round 2
+\slot{r2.state}{running}
+\slot{r2.candId}{}
+\slot{r2.class}{}
+\slot{r2.checker}{}
+\slot{r2.path}{}
+\slot{r2.attempts}{}
+\slot{r2.rationale}{}
+\slot{r2.stageZero}{}
+\slot{r2.nFiles}{}
+\slot{r2.nPhaseA}{}
+\slot{r2.smoke}{}
+\slot{r2.patch}{}
+\slot{r2.patchFiles}{}
+\slot{r2.patchAdded}{}
+\slot{r2.patchRemoved}{}
+\slot{r2.deltaKind}{}
+\slot{r2.delta}{}
+\slot{r2.nTrials}{}
+\slot{r2.nDivergent}{}
+\slot{r2.llmCalls}{}
+\slot{r2.blindDelta}{}
+\slot{r2.blindN}{}
+\slot{r2.unresolved}{}
+\slot{r2.rowsOmitted}{}
+\slot{r2.reason}{}
+\slot{r2.hIncAfter}{}
+%% END r2
+
+% Round 2 默认只在第 14 页底部占一行。Round 2 也评测完时改成 1，会多出两页完整的 Round 2。
+\slot{r2.full}{0}
+
+%% BEGIN bank —— m_gds 修复后的 Stage 0 复筛（第 11、15 页）
+\slot{bank.mgdsViol}{}        % 刷新后 m_gds 的违例数（修复前是 6）
+\slot{bank.nOk}{}             % 6 个镜像检查器里通过的个数
+\slot{bank.classOneOk}{}      % 1 全部通过 | 0 仍有未通过
+%% END bank
+
+% ---- 可选：单题前后对比页（show 改成 1 才出现；内容手填，只能用 8 道可见题）
+\slot{case.show}{0}
+\slot{case.task}{}            % 例如 \#2 推挽源随缓冲器（种子 0）
+\slot{case.before}{}          % 改动前：轨迹上发生了什么（一两句）
+\slot{case.after}{}           % 改动后：轨迹上发生了什么（一两句）
+\slot{case.lvsBefore}{}       % 改动前 LVS 结论，例如 未通过：8 个端口断开
+\slot{case.lvsAfter}{}
+\slot{case.yBefore}{}         % 例如 0.10
+\slot{case.yAfter}{}
+\slot{case.image}{}           % 可选版图截图，放进 slots/ 后填文件名，例如 slots/case.png

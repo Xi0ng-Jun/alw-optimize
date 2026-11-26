@@ -1,0 +1,419 @@
+{
+ "actions": [
+  "freeze_blind",
+  "build_bank",
+  "synthesize_bank",
+  "calibrate_eps",
+  "screen_hbase"
+ ],
+ "build_bank": {
+  "S_plus": {
+   "G_dev": 10,
+   "clusters_covered": 1
+  },
+  "bank": "/localdata/<USER>/ssap-alw-state/bank/b_dev.jsonl",
+  "n_samples": 24,
+  "written": 24
+ },
+ "calibrate_eps": {
+  "checker": "m_fill",
+  "eps": 0.0,
+  "n_samples": 49
+ },
+ "dry_run": false,
+ "freeze_blind": {
+  "G_dev": 10,
+  "blind_clusters": [
+   "cl_adb_gmr_degen",
+   "cl_task_19",
+   "cl_task_38"
+  ],
+  "n_blind_tasks": 4,
+  "n_visible_tasks": 8
+ },
+ "ok": false,
+ "screen_hbase": {
+  "class1": {
+   "m_drc": {
+    "blind_aggregate": {
+     "clusters_covered": 3,
+     "n_fp": 0,
+     "n_pass": 14,
+     "n_samples": 14,
+     "n_tp": 0
+    },
+    "checker": "m_drc",
+    "checks": {
+     "bidirectional_violations": 0,
+     "certified_on_bottom_with_lvs_pass": 0,
+     "coverage_S_plus_k": 9,
+     "directional_violations": 0,
+     "n_S_minus_k": 0,
+     "n_S_plus_k": 25
+    },
+    "class": 1,
+    "n_checked": 48,
+    "n_unchecked": 1,
+    "ok": true,
+    "visible": {
+     "n_samples": 11,
+     "violating_sample_ids": []
+    }
+   },
+   "m_fill": {
+    "blind_aggregate": {
+     "clusters_covered": 2,
+     "n_fp": 0,
+     "n_pass": 12,
+     "n_samples": 12,
+     "n_tp": 0
+    },
+    "checker": "m_fill",
+    "checks": {
+     "bidirectional_violations": 0,
+     "certified_on_bottom_with_lvs_pass": 0,
+     "coverage_S_plus_k": 2,
+     "directional_violations": 0,
+     "n_S_minus_k": 0,
+     "n_S_plus_k": 12
+    },
+    "class": 1,
+    "n_checked": 48,
+    "n_unchecked": 1,
+    "ok": true,
+    "visible": {
+     "n_samples": 0,
+     "violating_sample_ids": []
+    }
+   },
+   "m_gds": {
+    "blind_aggregate": {
+     "clusters_covered": 3,
+     "n_fp": 4,
+     "n_pass": 22,
+     "n_samples": 26,
+     "n_tp": 0
+    },
+    "checker": "m_gds",
+    "checks": {
+     "bidirectional_violations": 0,
+     "certified_on_bottom_with_lvs_pass": 0,
+     "coverage_S_plus_k": 10,
+     "directional_violations": 6,
+     "n_S_minus_k": 0,
+     "n_S_plus_k": 48
+    },
+    "class": 1,
+    "n_checked": 48,
+    "n_unchecked": 1,
+    "ok": false,
+    "visible": {
+     "n_samples": 22,
+     "violating_sample_ids": [
+      "phase1c-dev-hbase-H_base-sky130-adb-fd-sampling-feedback-ota-gain1-settling40ns-noise300uv-pvt-mc-layout-s0:terminal:gds_renamed_top",
+      "phase1c-dev-hbase-H_base-sky130-adb-fd-sampling-feedback-ota-gain1-settling40ns-noise300uv-pvt-mc-layout-s0:terminal:gds_truncated"
+     ]
+    }
+   },
+   "m_lvs": {
+    "blind_aggregate": {
+     "clusters_covered": 2,
+     "n_fp": 0,
+     "n_pass": 17,
+     "n_samples": 17,
+     "n_tp": 0
+    },
+    "checker": "m_lvs",
+    "checks": {
+     "bidirectional_violations": 0,
+     "certified_on_bottom_with_lvs_pass": 0,
+     "coverage_S_plus_k": 2,
+     "directional_violations": 0,
+     "n_S_minus_k": null,
+     "n_S_plus_k": 17
+    },
+    "class": 1,
+    "n_checked": 48,
+    "n_unchecked": 1,
+    "ok": true,
+    "visible": {
+     "n_samples": 0,
+     "violating_sample_ids": []
+    }
+   },
+   "m_morph": {
+    "blind_aggregate": {
+     "clusters_covered": 2,
+     "n_fp": 0,
+     "n_pass": 17,
+     "n_samples": 17,
+     "n_tp": 0
+    },
+    "checker": "m_morph",
+    "checks": {
+     "bidirectional_violations": 0,
+     "certified_on_bottom_with_lvs_pass": 0,
+     "coverage_S_plus_k": 2,
+     "directional_violations": 0,
+     "n_S_minus_k": 0,
+     "n_S_plus_k": 17
+    },
+    "class": 1,
+    "n_checked": 48,
+    "n_unchecked": 1,
+    "ok": true,
+    "visible": {
+     "n_samples": 0,
+     "violating_sample_ids": []
+    }
+   },
+   "m_shape": {
+    "blind_aggregate": {
+     "clusters_covered": 3,
+     "n_fp": 0,
+     "n_pass": 16,
+     "n_samples": 16,
+     "n_tp": 0
+    },
+    "checker": "m_shape",
+    "checks": {
+     "bidirectional_violations": 0,
+     "certified_on_bottom_with_lvs_pass": 0,
+     "coverage_S_plus_k": 10,
+     "directional_violations": 0,
+     "n_S_minus_k": null,
+     "n_S_plus_k": 33
+    },
+    "class": 1,
+    "n_checked": 48,
+    "n_unchecked": 1,
+    "ok": true,
+    "visible": {
+     "n_samples": 17,
+     "violating_sample_ids": []
+    }
+   }
+  },
+  "class1_ok": false,
+  "class2": {
+   "advisory_aspect_gt_3": {
+    "blind_aggregate": {
+     "clusters_covered": 3,
+     "n_fp": 0,
+     "n_pass": 22,
+     "n_samples": 26,
+     "n_tp": 4
+    },
+    "checker": "advisory_aspect_gt_3",
+    "checks": {
+     "k_FP_S_plus": 0,
+     "k_TP_blind": 4,
+     "n_S_plus": 3,
+     "overwrite_authority": false
+    },
+    "class": 2,
+    "ok": true,
+    "visible": {
+     "n_samples": 23,
+     "violating_sample_ids": [
+      "phase1c-dev-hbase-H_base-sky130-adb-fd-two-stage-miller-opamp-gain60-pm60-noise50uv-pvt-layout-s0:terminal",
+      "phase1c-dev-hbase-H_base-sky130-adb-fd-two-stage-miller-opamp-gain60-pm60-noise50uv-pvt-layout-s1:terminal"
+     ]
+    }
+   }
+  },
+  "class2_ok": true,
+  "coverage": {
+   "S_plus": {
+    "G_dev": 10,
+    "clusters_covered": 1
+   },
+   "by_source_kind": {
+    "synthetic_neg": 16,
+    "synthetic_pos": 9,
+    "terminal": 24
+   },
+   "n_S_plus": 3,
+   "n_total": 49,
+   "per_criterion": {
+    "m_drc": {
+     "S_minus_k": {
+      "G_dev": 10,
+      "clusters_covered": 0
+     },
+     "S_plus": {
+      "G_dev": 10,
+      "clusters_covered": 1
+     },
+     "S_plus_k": {
+      "G_dev": 10,
+      "clusters_covered": 9
+     },
+     "n_S_minus_k": 0,
+     "n_S_plus_k": 25,
+     "n_bottom_k": 1
+    },
+    "m_fill": {
+     "S_minus_k": {
+      "G_dev": 10,
+      "clusters_covered": 0
+     },
+     "S_plus": {
+      "G_dev": 10,
+      "clusters_covered": 1
+     },
+     "S_plus_k": {
+      "G_dev": 10,
+      "clusters_covered": 2
+     },
+     "n_S_minus_k": 0,
+     "n_S_plus_k": 12,
+     "n_bottom_k": 32
+    },
+    "m_gds": {
+     "S_minus_k": {
+      "G_dev": 10,
+      "clusters_covered": 1
+     },
+     "S_plus": {
+      "G_dev": 10,
+      "clusters_covered": 1
+     },
+     "S_plus_k": {
+      "G_dev": 10,
+      "clusters_covered": 10
+     },
+     "n_S_minus_k": 1,
+     "n_S_plus_k": 48,
+     "n_bottom_k": 0
+    },
+    "m_lvs": {
+     "S_minus_k": {
+      "G_dev": 10,
+      "clusters_covered": 0
+     },
+     "S_plus": {
+      "G_dev": 10,
+      "clusters_covered": 1
+     },
+     "S_plus_k": {
+      "G_dev": 10,
+      "clusters_covered": 2
+     },
+     "n_S_minus_k": 0,
+     "n_S_plus_k": 17,
+     "n_bottom_k": 1
+    },
+    "m_morph": {
+     "S_minus_k": {
+      "G_dev": 10,
+      "clusters_covered": 0
+     },
+     "S_plus": {
+      "G_dev": 10,
+      "clusters_covered": 1
+     },
+     "S_plus_k": {
+      "G_dev": 10,
+      "clusters_covered": 2
+     },
+     "n_S_minus_k": 0,
+     "n_S_plus_k": 17,
+     "n_bottom_k": 32
+    },
+    "m_shape": {
+     "S_minus_k": {
+      "G_dev": 10,
+      "clusters_covered": 4
+     },
+     "S_plus": {
+      "G_dev": 10,
+      "clusters_covered": 1
+     },
+     "S_plus_k": {
+      "G_dev": 10,
+      "clusters_covered": 10
+     },
+     "n_S_minus_k": 6,
+     "n_S_plus_k": 33,
+     "n_bottom_k": 1
+    }
+   }
+  },
+  "eps": {
+   "m_fill": 0.0
+  }
+ },
+ "synthesize_bank": {
+  "bank_size": 49,
+  "by_variant_name": {
+   "drc_sliver": {
+    "added": 3,
+    "agree": 3,
+    "planned": 3,
+    "verified": 3
+   },
+   "fill_low_ring": {
+    "added": 2,
+    "agree": 2,
+    "planned": 2,
+    "verified": 2
+   },
+   "gds_renamed_top": {
+    "added": 3,
+    "disagree": 3,
+    "planned": 3,
+    "verified": 3
+   },
+   "gds_truncated": {
+    "added": 3,
+    "disagree": 3,
+    "planned": 3,
+    "verified": 3
+   },
+   "grid_shift": {
+    "added": 3,
+    "agree": 3,
+    "planned": 3,
+    "verified": 3
+   },
+   "lvs_missing_label": {
+    "added": 2,
+    "agree": 2,
+    "planned": 2,
+    "verified": 2
+   },
+   "rotate90": {
+    "added": 3,
+    "agree": 3,
+    "planned": 3,
+    "verified": 3
+   },
+   "shape_q_advisory": {
+    "added": 3,
+    "agree": 3,
+    "planned": 3,
+    "verified": 3
+   },
+   "shape_q_over_4": {
+    "added": 3,
+    "agree": 3,
+    "planned": 3,
+    "verified": 3
+   }
+  },
+  "dry_run": false,
+  "inner_cert": true,
+  "n_added": 25,
+  "n_existing": 0,
+  "n_inner_cert": 25,
+  "n_skipped_infra": 0,
+  "n_source_errors": 0,
+  "n_sources": 3,
+  "n_sources_blind_clusters": 2,
+  "n_variants_planned": 25,
+  "n_verified": 25,
+  "n_written": 25,
+  "verifier": true
+ }
+}

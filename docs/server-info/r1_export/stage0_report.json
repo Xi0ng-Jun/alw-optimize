@@ -1,0 +1,24 @@
+{
+ "candidate_id": "repair-cert-diagnosis",
+ "checker": null,
+ "checks": {
+  "eps_shape": 0.0,
+  "hbase_mirrors_intact": true,
+  "n_changed_files": 1,
+  "n_phase_a_files_changed": 0,
+  "n_registry_mutations": 0,
+  "offline_smoke_ok": true,
+  "static_violation_kinds": []
+ },
+ "declared_path": "path1",
+ "evaluation_path": "path1",
+ "mutation_class": 4,
+ "ok": true,
+ "reason": "stage0_passed",
+ "screen": {
+  "objective_path": "path1",
+  "ok": true,
+  "phase_b_stateless": true
+ },
+ "stage": "passed"
+}

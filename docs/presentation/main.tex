@@ -1,0 +1,647 @@
+% !TEX program = xelatex
+% ALW 实验进展汇报（16:9）。编译：见 README.md（WSL 上用 tools/render.py；Overleaf 选 XeLaTeX）。
+% 数字全部来自 facts.tex（tools/gen_facts.py 生成）；今晚的结果只在 tonight_slots.tex 里填。
+\documentclass[aspectratio=169,10pt,t]{ctexbeamer}
+\input{theme}
+\input{facts}
+\input{tonight_slots}
+
+\title[ALW 实验进展]{让智能体画模拟版图：保底壳与自动改进}
+\date{2026 年 11 月 25 日}
+
+% Round 状态 -> 标签（颜色、文字），供第 2、13、14 页使用
+\newcommand{\statepill}[1]{%
+  \ifslotis{#1.state}{promoted}{\pill{ok}{已晋升}}{%
+  \ifslotis{#1.state}{evaluated}{\pill{muted}{已评测，未晋升}}{%
+  \ifslotis{#1.state}{stage1}{\pill{accent}{Stage 0 已通过，dev 评测中}}{%
+  \ifslotis{#1.state}{rejected}{\pill{bad}{提案被 Stage 0 拒绝}}{%
+  \ifslotis{#1.state}{nocand}{\pill{muted}{本轮没有有效提案}}{%
+  \ifslotis{#1.state}{infra}{\pill{bad}{评测因基础设施故障未完成}}{%
+  \pill{slot}{运行中，明早填入}}}}}}}}
+\newcommand{\classname}[1]{%
+  \ifslotis{#1.class}{1}{第 1 类：镜像检查器}{\ifslotis{#1.class}{2}{第 2 类：提示探针}{%
+  \ifslotis{#1.class}{3}{第 3 类：报错压缩}{\ifslotis{#1.class}{4}{第 4 类：抢修改进}{\slotchip}}}}}
+\newcommand{\pathname}[1]{%
+  \ifslotis{#1.path}{1}{Path 1：从存档重放抢修}{\ifslotis{#1.path}{2}{Path 2：从头配对重跑}{\slotchip}}}
+\newcommand{\RoundTitleA}[2]{%
+  \ifslotis{#1.state}{running}{Round #2 的补丁：Proposer 还在写}{%
+  \ifslotis{#1.state}{nocand}{Round #2：这一轮没有产生有效提案}{%
+  \ifslotis{#1.state}{rejected}{Round #2 的补丁：被离线筛拒绝}{%
+  Round #2 的补丁：Proposer 自己改了哪里}}}}
+\newcommand{\RoundTitleB}[2]{%
+  \ifslotis{#1.state}{promoted}{Round #2 的结果：开发集净增分为正，补丁并入现任版本}{%
+  \ifslotis{#1.state}{evaluated}{Round #2 的结果：开发集净增分不为正，补丁没有并入}{%
+  \ifslotis{#1.state}{infra}{Round #2 的结果：评测因基础设施故障没有完成}{%
+  \ifslotis{#1.state}{stage1}{Round #2 的结果：开发题实测还在跑}{%
+  \ifslotis{#1.state}{running}{Round #2 的结果：明早填入}{%
+  Round #2 的结果：没有进入上机实测}}}}}}
+\newcommand{\asof}{\ifslot{asof}{数据截至 \slotraw{asof}}{数据截至：\slotchip}}
+\newcommand{\cnum}[1]{\tikz[baseline=(n.base)]\node[num](n){#1};}
+
+\begin{document}
+
+% ============================================================ 1
+\begin{frame}[plain]
+  \vspace{14mm}
+  {\color{accent}\rule{14mm}{1.2mm}}\par\vspace{4.5mm}
+  {\fontsize{21}{27}\selectfont\bfseries\color{accent}让智能体画模拟版图：保底壳与自动改进\par}
+  \vspace{2.5mm}
+  {\large AnalogLayoutWorld（ALW）实验进展\par}
+  \vspace{9mm}
+  \begin{tikzpicture}
+    \tikzset{ph/.style={minimum width=16.6mm,minimum height=10.5mm,align=center,inner sep=0.4mm,
+                        font=\scriptsize}}
+    \node[good,ph] at (0,0)      {\textbf{Phase 0}\\环境搭建};
+    \node[good,ph] at (18.2,0)   {\textbf{Phase 1a}\\烟雾测试};
+    \node[good,ph] at (36.4,0)   {\textbf{Phase 1b}\\3 题试跑};
+    \node[good,ph] at (54.6,0)   {\textbf{Phase 1c}\\dev 基线};
+    \node[good,ph] at (72.8,0)   {\textbf{Phase 2}\\裁判库};
+    \node[slotbox,ph] at (91,0)  {\textbf{Phase 3}\\自动改进};
+    \node[locked,ph] at (109.2,0){\textbf{val}\\选模};
+    \node[locked,ph] at (127.4,0){\textbf{test}\\揭盲};
+    \node[anchor=west,font=\scriptsize,text=muted,inner sep=0pt] at (-8.3,-9.5)
+      {\textcolor{ok}{\rule{2mm}{2mm}} 已完成\quad \textcolor{slot}{\rule{2mm}{2mm}} 运行中\quad
+       \textcolor{lock}{\rule{2mm}{2mm}} 封存，尚未使用};
+  \end{tikzpicture}
+  \vfill
+  {\small （汇报人）\quad 2026 年 11 月 25 日\par}
+  \vspace{1.5mm}
+  {\scriptsize\color{muted}Agent：Claude Code \fv{agent.version} 命令行，驱动 \code{\fv{agent.model}}%
+   （\fv{agent.slots} 个模型槽位锁定为同一个模型）。方法：MCR v2。\par}
+  \vspace{6mm}
+\end{frame}
+
+% ============================================================ 2
+\begin{frame}{基线已测完，瓶颈在 LVS；自动改进今晚跑第一轮}
+  \lead{被测对象是「Claude Code + 一层固定的保底壳 $H_{\mathrm{base}}$」，在 \fv{split.dev} 道开发题上各跑 2 遍。
+        \Ystar{} 是官方考官给的分数，满分 1。}
+  \begin{tikzpicture}
+    \tikzset{tl/.style={tile,minimum width=45.6mm,minimum height=21mm,text width=42mm}}
+    \node[tl] at (0,0)    {\bignum{\fv{pc.n}\,/\,\fv{pc.n}}\\[1mm]
+                          {\footnotesize 次运行全部入账\\被误判成基础设施故障的：\fv{pc.nInfra} 次}};
+    \node[tl] at (49.2,0) {\bignum{\fv{pc.meanY}}\\[1mm]
+                          {\footnotesize 开发集平均 \Ystar\\可见 \fv{vis.n} 次的平均是 \fv{vis.meanY}}};
+    \node[tl] at (98.4,0) {\bignum[bad]{\fv{fun.lvs}\,/\,\fv{pc.n}}\\[1mm]
+                          {\footnotesize 通过 LVS（版图与网表对账）\\DRC（几何规则）通过 \fv{fun.drc}\,/\,\fv{pc.n}}};
+  \end{tikzpicture}
+  \vspace{2.2mm}
+
+  {\footnotesize
+  \begin{tabular}{@{}L{13mm}L{127mm}@{}}
+    \toprule
+    \textbf{已测} & Phase 1c 基线：\fv{split.dev} 题 $\times$ 2 个随机种子，共 \fv{pc.n} 次运行，每次 3 小时。
+                    Phase 2：\fv{bank.n} 个样本的离线裁判库。 \\
+    \textbf{在跑} & Phase 3 Round 1：让另一个 Agent 自己提一个补丁，先离线筛，再上开发题实测。
+                    \statepill{r1}\quad{\scriptsize\color{muted}\asof} \\
+    \textbf{未做} & 不带保底壳的对照臂 $H_{\mathrm{raw}}$；验证集选模；测试集 3 个种子揭盲。 \\
+    \bottomrule
+  \end{tabular}}
+  \src{\tagF{} 数字由脚本取自 Phase 1c 同步数据，是全部 \fv{pc.n} 次的聚合
+       （含 \fv{split.blindClusters} 个内部冻结盲簇的合计）。}
+\end{frame}
+
+% ============================================================ 3
+\begin{frame}{任务：给定电路网表，交出一份能制造的版图}
+  \lead{AnalogLayoutWorld 有 \fv{split.total} 道 SKY130（130 nm 开源工艺）模拟版图题，按电路家族分成互不重叠的三份。}
+  \begin{tikzpicture}
+    % inputs
+    \node[base,anchor=north west,text width=60mm,inner sep=1.25mm] (net) at (0,0)
+      {\textbf{输入 1：电路网表} \code{task/circuit.spice}\quad{\scriptsize\color{muted}题 \#21，\fv{ota.devices} 个晶体管}\\[0.4mm]
+       {\fontsize{6}{7.4}\selectfont\color{ink!85}\FactOtaNetlist}};
+    \node[base,anchor=north west,text width=60mm,inner sep=1.25mm] (spec) at ([yshift=-1.2mm]net.south west)
+      {\textbf{输入 2：电气规格}\quad{\scriptsize\color{muted}题 \#21}\\[0.2mm]
+       {\scriptsize 增益 $\ge$ \fv{ota.gainDb} dB，带宽 $\ge$ \fv{ota.ugbMHz} MHz，相位裕度 $\ge$ \fv{ota.pmDeg}$^\circ$，
+        噪声 $\le$ \fv{ota.noiseUv} $\mu$Vrms，功耗 $\le$ \fv{ota.powerMw} mW；
+        \fv{ota.pvt} 组工艺角、电压、温度下都要满足}\\[0.5mm]
+       \textbf{输入 3：工艺规则与器件库（PDK）}、公开测试台};
+    % agent
+    \node[ours,anchor=north west,text width=31mm,minimum height=28mm,align=center] (ag) at (71,-5)
+      {\textbf{Agent（容器内）}\\[0.6mm]
+       {\scriptsize Claude Code \fv{agent.version}\\+ \code{\fv{agent.model}}\\[0.6mm]
+        $\le$ \fv{task.timeoutMin} 分钟\\\fv{res.cpus} 核 CPU，\fv{res.memGiB} GiB 内存\\[0.6mm]
+        写脚本，跑 EDA 工具\\没有图形界面}};
+    % output
+    \node[base,anchor=north west,text width=31.5mm,inner sep=1.3mm] (out) at (109.2,0)
+      {\textbf{输出}\\[0.2mm]\code{submission/layout.gds}\\
+       {\scriptsize 版图文件：每个制造层上的矩形和多边形}\\[0.4mm]
+       \code{submission/src/*.py}\\{\scriptsize 生成版图的脚本}};
+    \node[base,anchor=north west,text width=31.5mm,inner sep=1.3mm] (ver) at (109.2,-27.5)
+      {\textbf{考官}{\scriptsize（另一个断网容器，$\le$ \fv{wm.verifierMin} 分钟）}\\[0.2mm]
+       {\scriptsize 给出分数 $Y^\star\in[0,1]$\\和是否完全通过 $C^\star\in\{0,1\}$}};
+    \draw[arr] (net.east) -- ++(3.4,0) |- ([yshift=5mm]ag.west);
+    \draw[arr] (spec.east) -- ++(3.4,0) |- ([yshift=-8mm]ag.west);
+    \draw[arr] ([yshift=5mm]ag.east) -- ++(2.6,0) |- (out.west);
+    \draw[arr] (out.south) -- (ver.north);
+    % split bar
+    \begin{scope}[shift={([yshift=-5.8mm]spec.south west)}]
+      \fill[accent!16] (0,0) rectangle (43.2,4.8);
+      \fill[lock!22]   (43.2,0) rectangle (93.6,4.8);
+      \fill[lock!34]   (93.6,0) rectangle (144,4.8);
+      \draw[white,line width=1pt] (43.2,0) -- (43.2,4.8) (93.6,0) -- (93.6,4.8);
+      \draw[accent!60,dashed] (28.8,0) -- (28.8,4.8);
+      \node[font=\scriptsize,text=accent] at (14.4,2.4) {开发集：\fv{split.devVisible} 题可见};
+      \node[font=\scriptsize,text=accent] at (36,2.4) {\fv{split.blindTasks} 题盲簇};
+      \node[font=\scriptsize,text=lock] at (68.4,2.4) {验证集：\fv{split.val} 题，封存};
+      \node[font=\scriptsize,text=lock] at (118.8,2.4) {测试集：\fv{split.test} 题，封存};
+    \end{scope}
+  \end{tikzpicture}
+  \src{\tagF{} 网表与规格取自题 \#21 发给 Agent 的文件（型号前缀 \code{sky130\_fd\_pr\_\_} 省略）。
+       盲簇：开发集里 \fv{split.blindClusters} 个电路家族不给提补丁的 Agent 看，只回传合计数。}
+\end{frame}
+
+% ============================================================ 4
+\begin{frame}{LVS 不过，分数封顶 0.10}
+  \lead{考官按固定顺序检查。前一关没过，后面的项不再测，记为「未评」而不是 0。}
+  \begin{tikzpicture}
+    % axis
+    \draw[hair] (4,0) -- (97,0);
+    \foreach \y/\yl in {0/0,3.8/0.10,11.4/0.30,38/1.00}
+      \node[lab,anchor=east] at (3.6,\y) {\yl};
+    \foreach \y in {3.8,11.4,38} \draw[hair,densely dotted] (4,\y) -- (97,\y);
+    % bars: x, previous height, new height, increment label, cumulative label, caption
+    \foreach \x/\pv/\hv/\inc/\cum/\cpt in {
+        7/0/3.8/+0.10/0.10/{交出有效\\GDS 文件},
+        21/3.8/7.6/+0.10/0.20/{LVS\\通过},
+        35/7.6/11.4/+0.10/0.30/{DRC\\通过},
+        55/11.4/19/{最多 +0.20}/0.50/{器件面积\\占比},
+        69/19/22.8/{最多 +0.10}/0.60/{匹配与\\走线质量},
+        83/22.8/38/{最多 +0.40}/1.00/{后仿真\\通过率}} {
+      \fill[accent!18] (\x,0) rectangle (\x+11,\pv);
+      \fill[accent!70] (\x,\pv) rectangle (\x+11,\hv);
+      \node[font=\scriptsize\bfseries,text=accent,anchor=south,inner sep=0.5mm] at (\x+5.5,\hv) {\inc};
+      \node[font=\scriptsize,align=center,anchor=north,inner sep=0.8mm] at (\x+5.5,0) {\cpt};
+    }
+    % gate
+    \draw[lock,dashed,line width=0.7pt] (50.5,-1) -- (50.5,33);
+    \node[locked,anchor=south west,font=\scriptsize,text width=27mm,inner sep=1.1mm] at (18,27.4)
+      {\textbf{三道门槛，全过才解锁后面 0.70}\\长宽比 $\le$ 3 或 4\\器件面积占比 $\ge$ 10\%\\不是「排成一排」的退化排布};
+    \draw[lock,line width=0.5pt] (46.9,31) -- (50.5,31);
+    % LVS cap
+    \draw[bad,line width=0.8pt,dashed] (18.2,3.8) -- (96,3.8);
+    \node[font=\scriptsize\bfseries,text=bad,anchor=south west,inner sep=0.6mm,align=left] (cap) at (5,15.5)
+      {LVS 不过：分数停在 0.10\\DRC 分也不给，后面各项未评};
+    \draw[bad,line width=0.6pt,-{Stealth[length=1.6mm]}] (12,15.3) -- (19.3,4.5);
+    % glossary
+    \node[box,anchor=north west,text width=40.5mm,inner sep=1.5mm] at (100.5,40)
+      {{\scriptsize\renewcommand{\arraystretch}{1.22}%
+       \begin{tabular}{@{}L{7.6mm}L{31.4mm}@{}}
+         \textbf{LVS} & 版图与网表对账：从版图反提出电路，和题目网表逐个器件、逐根连线比对 \\
+         \textbf{DRC} & 几何规则体检：线宽、间距、包边是否满足工艺规则 \\
+         \textbf{PEX} & 寄生提取：算出走线带来的寄生电阻和电容 \\
+         \textbf{后仿真} & 带着寄生参数重新仿真，看增益、带宽、噪声等是否达标 \\
+       \end{tabular}}};
+  \end{tikzpicture}
+  \vspace{0.6mm}
+  \begin{itemize}
+    \item \Ystar{} 是上面各项之和。\Cstar{} $=1$（完全通过）要求 DRC 通过、三道门槛全过、后仿真必选项全部通过。
+  \end{itemize}
+  \src{\tagF{} 计分规则核对自基准的 \code{\_scoring\_core.py}；长宽比上限按题为 3 或 4。}
+\end{frame}
+
+% ============================================================ 5
+\begin{frame}{Agent 写 Python 脚本生成版图，再用 EDA 工具自查}
+  \lead{Agent 不用鼠标画图。它在容器里反复做下面这个循环，全靠脚本和命令行工具的文字输出。}
+  \begin{tikzpicture}
+    \tikzset{stp/.style={base,text width=25mm,minimum height=15.5mm,anchor=north west}}
+    \node[stp] (a) at (0,0)   {\cnum{1}\ \textbf{读题}\\{\scriptsize\code{circuit.spice}\\\code{GUIDE.md}、\code{DEVICE\_API.md}}};
+    \node[stp] (b) at (32,0)  {\cnum{2}\ \textbf{写 Python 脚本}\\{\scriptsize 用 \code{klayout.db} 或 \code{gdsfactory}\\算出每个器件、每段走线的坐标}};
+    \node[stp] (c) at (64,0)  {\cnum{3}\ \textbf{运行脚本}\\{\scriptsize 生成\\\code{work/draft/layout.gds}}};
+    \node[stp] (d) at (64,-23){\cnum{4}\ \textbf{自查}\\{\scriptsize KLayout 跑 DRC 和 LVS\\（\fv{lvs.magic} 道题用 Magic + Netgen）}};
+    \node[stp] (e) at (32,-23){\cnum{5}\ \textbf{读报错，改脚本}\\{\scriptsize 哪条线太窄、哪个端口没连上}};
+    \node[ours,text width=25mm,minimum height=13mm,anchor=north west] (f) at (64,-45)
+      {\textbf{送检并交卷}\\{\scriptsize\code{mcr\_promote} $\to$\\\code{submission/layout.gds}}};
+    \draw[arr] (a) -- (b); \draw[arr] (b) -- (c); \draw[arr] (c) -- (d);
+    \draw[arr] (d) -- (e); \draw[arr] (e) -- (b); \draw[arr] (d) -- (f);
+    \node[lab,anchor=west,align=left] at (0,-30.5) {循环几十到上百次};
+    \node[lab,anchor=east,align=right] at (62.5,-51.5) {有一版像样的就送检（保底壳提供，见第 7 页）};
+    % tools
+    \node[box,anchor=north west,text width=46mm,inner sep=1.6mm] at (94.5,0)
+      {{\scriptsize\setlength{\tabcolsep}{1.2mm}\renewcommand{\arraystretch}{1.25}%
+       \begin{tabular}{@{}L{11.5mm}L{31.5mm}@{}}
+         \textbf{工具} & \textbf{在这里做什么} \\ \midrule
+         KLayout & DRC；\fv{lvs.klayout} 道题的 LVS \\
+         Magic   & 寄生提取（PEX）；\fv{lvs.magic} 道题的版图反提 \\
+         Netgen  & \fv{lvs.magic} 道题的 LVS 比对 \\
+         ngspice & 电路仿真（含后仿真） \\
+       \end{tabular}}\\[1.2mm]
+       {\scriptsize\color{muted}都是容器里装好的开源工具，考官用的是同一套。}};
+    \node[tile,anchor=north west,text width=46mm,inner sep=1.6mm,align=left] at (94.5,-36.5)
+      {{\footnotesize 一次运行平均}\\[0.4mm]
+       {\footnotesize\midnum{\fv{pc.requestsPerRun}} 次模型请求}\\
+       {\footnotesize\midnum{\fv{pc.inputTokPerRunM}} 百万输入 token}};
+  \end{tikzpicture}
+  \src{\tagF{} 请求数与 token 是 Phase 1c \fv{pc.n} 次运行的平均（合计 \fv{pc.requests} 次请求、\fv{pc.inputTokM} 百万输入 token）。}
+\end{frame}
+
+% ============================================================ 6
+\begin{frame}{真实轨迹 \#2：\fv{two.devices} 个器件摆好、DRC 清零，但没有布线}
+  \lead{题 \#2 是差分推挽源随缓冲器（\fv{two.devices} 个器件、\fv{two.nets} 个网）。下面是它一次 3 小时运行留下的记录。}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \begin{column}{88mm}
+      {\footnotesize\renewcommand{\arraystretch}{1.32}%
+      \begin{tabular}{@{}L{5mm}L{81mm}@{}}
+        \cnum{1} & 读网表 \code{task/circuit.spice}。 \\
+        \cnum{2} & 先拿单个器件做实验$^\dagger$：指数 50 的晶体管单元提取出来是 50 个并联器件，
+                   对账工具会把它们合并成网表里的一个。 \\
+        \cnum{3} & 写生成脚本：\code{build.py}（总装）、\code{common.py}（矩形、走线、过孔）、
+                   \code{devices.py}（晶体管、电容、电阻）、\code{make\_res\_snake.py}（蛇形电阻）。 \\
+        \cnum{4} & 按网表尺寸放好全部 \fv{two.devices} 个器件（含 \fv{two.caps} 个电容、\fv{two.res} 个蛇形电阻），
+                   贴上 \fv{two.ports} 个端口标签。 \\
+        \cnum{5} & 用 \code{work/is2/run\_drc.sh} 反复跑 DRC，直到违规标记为 \fv{two.drcMarkers}。 \\
+        \cnum{6} & \code{mcr\_promote} 把它存进 \code{submission/layout.gds}%
+                   （\fv{two.bboxW} $\times$ \fv{two.bboxH} $\mu$m）。 \\
+        \cnum{7} & 写交接单：下一步换用已写好但没调用的 \code{devices.add\_mos()}，再写一个直线布线器。 \\
+      \end{tabular}}
+    \end{column}
+    \begin{column}{53mm}
+      \begin{tikzpicture}
+        \node[box,text width=49mm,inner sep=1.6mm,anchor=north west] (v) at (0,0)
+          {{\scriptsize\renewcommand{\arraystretch}{1.2}%
+           \begin{tabular}{@{}L{12.5mm}L{35mm}@{}}
+             \multicolumn{2}{@{}l}{\textbf{本地 6 项检查的结论}} \\[0.4mm]
+             文件可读  & \pass \\
+             长宽比    & \pass：\fv{two.q}（上限 \fv{two.qmax}） \\
+             排布形态  & \pass（该题豁免） \\
+             DRC       & \pass：\fv{two.drcMarkers} 个违规标记 \\
+             LVS       & \fail：\fv{two.lvsPorts} 个端口断开；提取出 \fv{two.lvsExtracted} 个器件，网表是 \fv{two.devices} 个 \\
+             面积占比  & \textcolor{muted}{LVS 未过，不评} \\
+           \end{tabular}}};
+        \node[fail,text width=49mm,inner sep=1.6mm,anchor=north west,align=center] at (0,-37.5)
+          {{\footnotesize 考官给分}\ \midnum[bad]{\Ystar{} = \fv{two.pbY}}\\[0.2mm]
+           {\scriptsize\textbf{原因：没有布线。}每个器件端子都是孤岛，\\所以对不上账，只拿到「交出有效 GDS」一项}};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+  \src{\tagF{} Phase 1b 这次运行的交接单、本地检查输出和考官结果；主阶段用时 \fv{pOneB.phaseASec} s，留下 \fv{two.gdsFiles} 个 GDS 文件。
+       Phase 1c 两个种子的分数同样是 \fv{two.pcY}。
+       $^\dagger$\,\tagU{} 实验文件路径 \code{work/exp/prod\_n50\_*.gds} 不在事实包内。}
+\end{frame}
+
+% ============================================================ 7
+\begin{frame}{保底壳 $H_{\mathrm{base}}$ 改了容器的哪里}
+  \lead{不改模型，不改题目，不改考官。只在容器里加一层固定的壳，蓝色是我们加的，灰色原样不动。}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \begin{column}{86mm}
+      \begin{tikzpicture}
+        \tikzset{wb/.style={text width=35mm,anchor=north west,inner sep=1.3mm,font=\scriptsize}}
+        \node[base,wb] (h) at (0,0)   {\textbf{Harbor 调度器}：启动容器，调用 \code{claude}};
+        \node[ours,wb] (s) at (0,-10.5){\textbf{垫片} \code{/usr/local/bin/claude}\\把调用转给总管};
+        \node[ours,wb] (e) at (0,-21.5){\textbf{总管} \code{mcr\_entrypoint.py}\\锁住题目文件、计时、到点存档、\\启动最后的抢修};
+        \node[base,wb] (c) at (0,-37) {\textbf{Claude Code \fv{agent.version}}\\正常做题，不知道壳的存在};
+        \draw[arr] (h) -- (s); \draw[arr] (s) -- (e); \draw[arr] (e) -- (c);
+        \node[ours,wb,text width=39.5mm] (k) at (42.5,-4)
+          {\textbf{钩子} \code{mcr\_hook.py}（经 \code{settings.json}）\\每次执行命令或写文件之后自动运行：\\
+           Agent 直接改了交卷目录时，把内容抢救到草稿区再检验；\\第 \fv{wm.tWarnMin} 分钟提醒收尾};
+        \node[ours,wb,text width=39.5mm] (p) at (42.5,-31)
+          {\textbf{送检工具} \code{mcr\_promote}、\code{mcr\_check}\\Agent 主动调用：跑 6 项本地检查，\\新版本更好才替换交卷目录};
+        \draw[arr] (c.east) -- ++(3.5,0) |- (k.west);
+        \draw[arr] ([yshift=-2mm]c.east) -- ++(5.5,0) |- (p.west);
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{55mm}
+      {\scriptsize\renewcommand{\arraystretch}{1.3}%
+      \begin{tabular}{@{}L{17.5mm}L{35.5mm}@{}}
+        \toprule
+        \textbf{目录} & \textbf{谁能写，放什么} \\ \midrule
+        \code{work/draft/}   & Agent 随便改。草稿区，不做中途回滚 \\
+        \code{.mcr/}         & 壳管理。最佳版本备份、交接单、体检单、题目的只读副本 \\
+        \code{submission/}   & 只能经送检工具整体替换。3 小时后考官只取这个目录 \\
+        \code{/opt/harness/} & 只读挂载。壳自己的脚本 \\
+        \bottomrule
+      \end{tabular}}
+      \vspace{1.6mm}
+
+      {\scriptsize\color{muted}6 项本地检查与考官判据对齐：文件可读、LVS 对账、长宽比 $\le$ 4、面积占比 $\ge$ 10\%、
+       非退化排布、DRC 违规为 0。\par}
+    \end{column}
+  \end{columns}
+  \src{\tagM{} 这一页讲机制，不是实测收益：开发集上只跑了带壳的一个臂，$H_{\mathrm{raw}}\to H_{\mathrm{base}}$ 的增益没有测，
+       三段归因（$H_{\mathrm{raw}}\to H_{\mathrm{base}}\to H^\star$）留到封存测试集上用 3 个种子完成。}
+\end{frame}
+
+% ============================================================ 8
+\begin{frame}{交卷只进不退；最后 \fv{wm.repMin} 分钟由一个无记忆的新进程独立抢修}
+  \lead{一道题的 \fv{wm.tMaxMin} 分钟被两条水位线分成两段。}
+  \begin{tikzpicture}
+    \fill[accent!15] (0,0) rectangle (132,7.5);
+    \fill[slot!28]   (132,0) rectangle (144,7.5);
+    \draw[hair] (0,0) rectangle (144,7.5);
+    \node[font=\footnotesize,anchor=west] at (2,3.75)
+      {\textbf{主阶段 Phase A}：Agent 自由做题，草稿随便改，随时可以送检};
+    \node[font=\scriptsize\bfseries,text=slot!70!black] at (138,3.75) {Phase B};
+    \foreach \x/\tk in {112/\fv{wm.tWarnMin},132/\fv{wm.tSoftMin},144/\fv{wm.tMaxMin}} {
+      \draw[muted] (\x,0) -- (\x,-1.4);
+      \node[lab,anchor=north] at (\x,-1.4) {\tk};}
+    \draw[muted] (0,0) -- (0,-1.4);
+    \node[lab,anchor=north west,inner sep=0pt] at (-0.6,-2) {0 分钟};
+    \draw[accent,line width=0.9pt] (112,-0.2) -- (112,11);
+    \draw[accent,line width=0.9pt] (132,-0.2) -- (132,14.6);
+    \node[font=\scriptsize,anchor=south east,align=right,inner sep=0.8mm] at (111.6,7.6)
+      {\textbf{预警}：提醒 Agent 收敛修改、送检、写交接单};
+    \node[font=\scriptsize,anchor=south east,align=right,inner sep=0.8mm] at (131.6,11.2)
+      {\textbf{收工}：停主进程，整个工作区存档};
+    \node[slotbox,anchor=north east,font=\scriptsize,text width=52mm,inner sep=1.1mm] at (144,-5.8)
+      {\textbf{抢修 Phase B}：最多 \fv{wm.repMin} 分钟、\fv{wm.repTurns} 轮。全新进程，没有之前的对话，
+       只看工作区文件、交接单和体检单};
+    \node[lab,anchor=north west,text width=84mm,align=left,inner sep=0pt] at (0,-6.2)
+      {收工时整个工作区存进 \code{pre\_repair/}。之后离线评测新补丁，就是从这份存档重放抢修这一段，
+       和线上运行走同一段代码。};
+  \end{tikzpicture}
+  \vspace{0.3mm}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \begin{column}{70mm}
+      \begin{tikzpicture}
+        \foreach \n/\tx in {
+          0/{有一个非空的 \code{layout.gds}},
+          1/{文件可读、顶层名正确},
+          2/{LVS 通过},
+          3/{其余四项都不退步，且至少一项由挂变过},
+          4/{四项打平时余量更宽（如 DRC 违规更少）}} {
+          \node[ours,anchor=north west,text width=58.5mm,inner sep=0.8mm,font=\scriptsize] at (6,-\n*4.7)
+            {\tx};
+          \node[num] at (2.2,-\n*4.7-2.2) {\n};}
+        \draw[arr,accent] (-1.6,-0.5) -- (-1.6,-22.5);
+        \node[lab,rotate=90,anchor=south] at (-2.2,-11.5) {台阶越来越高};
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{71mm}
+      {\footnotesize
+      \begin{itemize}\setlength{\itemsep}{0.6mm}
+        \item{\footnotesize 新版本在左边的台阶上\textbf{严格更高}才替换交卷目录；抢修改坏了，交回旧备份。}
+        \item{\footnotesize 触发抢修的条件：剩余时间 $\ge$ \fv{wm.minRemain} s，且 6 项检查没全过，或有草稿没送检，
+              或长宽比落在 3 到 4 之间。}
+        \item{\footnotesize 机器故障（内存耗尽、模型网关故障）单独记账并配对重跑；Agent 没交出有效版图记 0 分，不剔除。}
+      \end{itemize}}
+    \end{column}
+  \end{columns}
+  \src{\tagM{} 水位线取自 \code{configs/alw/config.server.json}：\fv{wm.tWarn} / \fv{wm.tSoft} / \fv{wm.tMax} s。}
+\end{frame}
+
+% ============================================================ 9
+\begin{frame}{Phase 1b $\to$ 1c：改了三处，网关故障误标从 \fv{pOneB.flagged}/\fv{pOneB.nRuns} 降到 \fv{pc.nInfra}/\fv{pc.n}}
+  \lead{Phase 1b 先拿 \fv{pOneB.nRuns} 道题各跑满 3 小时，暴露了三个问题。修完之后才跑 Phase 1c 的 \fv{pc.n} 次基线。}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \begin{column}{84mm}
+      {\scriptsize\renewcommand{\arraystretch}{1.28}%
+      \begin{tabular}{@{}L{22mm}L{27.5mm}L{28.5mm}@{}}
+        \toprule
+        \textbf{改了哪里} & \textbf{Phase 1b} & \textbf{Phase 1c} \\ \midrule
+        计量代理 \code{MeteringProxy.\_relay} & Agent 正常退出时断开连接，被记成「网关故障」
+          & 只记一个客户端断开计数，不算故障 \\
+        预警线 & 第 \fv{pOneB.tWarnMin} 分钟，离收工 15 分钟 & 第 \fv{wm.tWarnMin} 分钟，离收工 25 分钟 \\
+        抢修轮数上限 & \fv{pOneB.repTurns} 轮 & \fv{wm.repTurns} 轮 \\
+        \bottomrule
+      \end{tabular}}
+      \vspace{1.6mm}
+
+      \begin{tikzpicture}
+        \node[lab,anchor=west,inner sep=0pt] at (0,4.6) {Phase 1b 的抢修用掉了多少时间预算（可见的两题）};
+        \foreach \y/\tn/\kk in {0/{\#2}/pbTwo,-6.4/{\#21}/pbTwentyone} {
+          \node[font=\scriptsize\bfseries,anchor=east,inner sep=0pt] at (5.4,\y) {\tn};
+          \fill[hair!70] (6.5,\y-1.7) rectangle ({6.5+44*\fv{\kk.budgetFrac}},\y+1.7);
+          \fill[bad!65]  (6.5,\y-1.7) rectangle ({6.5+44*\fv{\kk.frac}},\y+1.7);
+          \node[font=\scriptsize,anchor=west,inner sep=0pt] at (52,\y)
+            {\fv{\kk.sec} / \fv{\kk.budget} s，即 \fv{\kk.pct}\%};}
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{57mm}
+      \begin{tikzpicture}
+        \tikzset{tl/.style={tile,text width=51.5mm,anchor=north west,inner sep=1.5mm}}
+        \node[tl] at (0,0)
+          {\midnum[bad]{\fv{pOneB.flagged}\,/\,\fv{pOneB.nRuns}}\ {\large$\to$}\ \midnum[ok]{\fv{pc.nInfra}\,/\,\fv{pc.n}}\\[0.5mm]
+           {\scriptsize 被标成网关故障的运行}};
+        \node[tl] at (0,-18.2)
+          {\midnum[bad]{\fv{pOneB.promoted}\,/\,\fv{pOneB.nRuns}}\ {\large$\to$}\ \midnum[ok]{\fv{pc.promoted}\,/\,\fv{pc.gate}}\\[0.5mm]
+           {\scriptsize 触发抢修的运行里，交卷被更新的次数（\fv{pc.promotedPct}\%）}};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+  \vspace{1.2mm}
+  {\scriptsize\setlength{\parskip}{0.7mm}%
+  \tagF{} 1b 三次运行的限流、服务端错误、重试计数都是 0。1c 有 \fv{pc.disconnects} 次客户端断开，
+          分布在 \fv{pc.disconnectRuns} 次运行里，没有一次被记成故障。\par
+  \tagJ{} 1b 的抢修是被 \fv{pOneB.repTurns} 轮上限截断的：时间只用了两成，没有超时，进程以退出码 \fv{pbTwo.rc} 结束。\par
+  \tagU{} 1c 的同步数据里没有水位线字段，也没有交卷更新前后的 \Ystar{}。可见的 \fv{vis.promoted} 次更新，
+          最终分数仍是 0.1，所以更新率不能读成涨分。\par}
+\end{frame}
+
+% ============================================================ 10
+\begin{frame}{基线：\fv{pc.n} 次运行里 DRC 过了 \fv{fun.drc} 次，LVS 只过 \fv{fun.lvs} 次}
+  \lead{Phase 1c：\fv{split.dev} 道开发题 $\times$ 2 个种子，带保底壳，每次 3 小时。}
+  \begin{tikzpicture}
+    % ---- funnel
+    \node[font=\scriptsize\bfseries,anchor=west,inner sep=0pt] at (0,3.5) {各关通过的运行数（共 \fv{pc.n} 次）};
+    \foreach \n/\tn/\kk/\cc in {0/{有效 GDS}/gds/accent,1/{DRC}/drc/accent,2/{LVS}/lvs/bad,
+                               3/{寄生提取}/pex/accent,4/{后仿真全过}/postsim/accent} {
+      \node[font=\scriptsize,anchor=east,inner sep=0pt] at (15.5,-2.5-\n*6.1) {\tn};
+      \fill[hair!55] (17,-4.5-\n*6.1) rectangle (45,-0.5-\n*6.1);
+      \fill[\cc!70] (17,-4.5-\n*6.1) rectangle ({17+28*\fv{fun.\kk}/\fv{pc.n}},-0.5-\n*6.1);
+      \node[font=\scriptsize\bfseries,anchor=west,inner sep=0.6mm] at (45,-2.5-\n*6.1)
+        {\fv{fun.\kk}};}
+    \draw[bad,line width=0.7pt,-{Stealth[length=1.6mm]}] (51.5,-8.6) -- (51.5,-14.6);
+    % ---- distribution
+    \node[font=\scriptsize\bfseries,anchor=west,inner sep=0pt] at (56,3.5) {\Ystar{} 的分布};
+    \foreach \n/\tn/\kk in {0/{0}/zero,1/{0.1}/tenth,2/{0.2}/fifth,3/{高于 0.2}/above} {
+      \node[font=\scriptsize,anchor=east,inner sep=0pt] at (67,-2.5-\n*6.1) {\tn};
+      \fill[accent!70] (68.5,-4.5-\n*6.1) rectangle ({68.5+12*\fv{dist.\kk}/\fv{dist.tenth}},-0.5-\n*6.1);
+      \node[font=\scriptsize\bfseries,anchor=west,inner sep=0.6mm] at ({68.5+12*\fv{dist.\kk}/\fv{dist.tenth}},-2.5-\n*6.1)
+        {\fv{dist.\kk} 次};}
+    \node[lab,anchor=north west,text width=31mm,align=left,inner sep=0pt] at (56,-25.5)
+      {0.1 就是「只交出了有效 GDS」};
+    % ---- visible grid
+    \begin{scope}[shift={(92.5,0)}]
+      \node[font=\scriptsize\bfseries,anchor=west,inner sep=0pt] at (0,3.5) {\fv{split.devVisible} 道可见题};
+      \node[lab,inner sep=0pt] at (37.5,3.5) {种子 0};
+      \node[lab,inner sep=0pt] at (46.5,3.5) {种子 1};
+      \begin{scope}[shift={(0,-2.3)}]\FactVisibleGrid\end{scope}
+      \node[locked,anchor=north west,text width=49.2mm,inner sep=1mm,font=\scriptsize] at (-0.7,-34.2)
+        {\fv{split.blindClusters} 个内部冻结盲簇合计（\fv{blind.nRuns} 次）：平均 \fv{blind.meanY}，
+         LVS 过 \fv{blind.lvs} 次，完全通过 \fv{blind.cSum} 次};
+      \node[lab,anchor=north west,inner sep=0pt] at (-0.7,-43.2)
+        {\textcolor{accent}{\rule{1.8mm}{1.8mm}} DRC 过、LVS 没过\ \
+         \textcolor{muted}{\rule{1.8mm}{1.8mm}} DRC 没过\ \
+         \textcolor{bad}{\rule{1.8mm}{1.8mm}} 没交 GDS};
+    \end{scope}
+  \end{tikzpicture}
+  \vspace{-12.2mm}
+
+  \begin{minipage}{88mm}
+  \begin{itemize}\setlength{\itemsep}{0.4mm}
+    \item{\footnotesize 可见的 \fv{vis.n} 次没有一次通过 LVS，所以可见题要涨分，必须先过 LVS。}
+    \item{\footnotesize \fv{pc.nNotPassed} 次未完全通过里，\fv{pc.taxMirror} 次是本地工具就能查出的问题，
+          \fv{pc.taxElec} 次卡在电气指标，\fv{pc.taxGds} 次没交出有效 GDS。}
+  \end{itemize}
+  \end{minipage}
+  \src{\tagF{} Phase 1c 同步数据。两个种子的平均分是 \fv{pc.seedMeanZero} 和 \fv{pc.seedMeanOne}，
+       种子间标准差 \fv{pc.sigmaSeed}，只当读数的参考尺，不作否决门槛。盲簇只给合计。}
+\end{frame}
+
+% ============================================================ 11
+\begin{frame}{裁判库 $B_{\mathrm{dev}}$：\fv{bank.terminal} 个终态版图加 \fv{bank.variants} 个合成变体，不花模型费}
+  \lead{新检查器要先在这个离线样本库上和考官的结论逐个对照。把考官判通过的版图误判成不通过，就不许上机。}
+  \begin{tikzpicture}
+    \node[base,anchor=north west,text width=35mm,minimum height=15mm] (t) at (0,0)
+      {\midnum{\fv{bank.terminal}} 个终态版图\\{\scriptsize Phase 1c 每次运行最后交的那份}};
+    \node[ours,anchor=north west,text width=55mm,minimum height=15mm] (s) at (43,0)
+      {\midnum{\fv{bank.variants}} 个合成变体：\fv{bank.neg} 个故意改坏，\fv{bank.pos} 个等价改写\\
+       {\scriptsize 脚本从 \fv{bank.sources} 份源版图改出，再让考官重新判分}};
+    \node[good,anchor=north west,text width=31mm,minimum height=15mm] (b) at (107.6,0)
+      {\midnum[ok]{\fv{bank.n}} 个带考官标签的样本\\{\scriptsize\fv{bank.verified}/\fv{bank.variants} 个变体两边都验过}};
+    \node[font=\large\bfseries,text=muted] at (40.3,-7.5) {+};
+    \draw[arr] (s.east) -- (b.west);
+    \node[lab,anchor=north west,text width=144mm,align=left,inner sep=0pt] at (0,-16.8)
+      {变体种类（个数）：插一根过细的线 \fv{var.drcSliver}，外围加大空框 \fv{var.fillLowRing}，
+       删端口标签 \fv{var.lvsMissingLabel}，长宽比拉到 4 以上 \fv{var.shapeOver}，长宽比拉到 3 至 4 之间 \fv{var.shapeAdvisory}，
+       整体平移 \fv{var.gridShift}，旋转 90$^\circ$ \fv{var.rotate}，截断文件 \fv{var.gdsTruncated}，改顶层名 \fv{var.gdsRenamedTop}。};
+  \end{tikzpicture}
+  \vspace{0.2mm}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \begin{column}{80mm}
+      {\scriptsize\renewcommand{\arraystretch}{1.05}%
+      \begin{tabular}{@{}L{25mm}C{21mm}C{16mm}L{11mm}@{}}
+        \toprule
+        \textbf{本地检查器} & \textbf{考官判通过的样本} & \textbf{其中被它判不过} & \textbf{结论} \\ \midrule
+        对账 \code{m\_lvs}      & \fv{scr.lvs.nPlus}   & \fv{scr.lvs.viol}   & \pass \\
+        DRC \code{m\_drc}       & \fv{scr.drc.nPlus}   & \fv{scr.drc.viol}   & \pass \\
+        长宽比 \code{m\_shape}  & \fv{scr.shape.nPlus} & \fv{scr.shape.viol} & \pass \\
+        面积占比 \code{m\_fill} & \fv{scr.fill.nPlus}  & \fv{scr.fill.viol}  & \pass \\
+        排布 \code{m\_morph}    & \fv{scr.morph.nPlus} & \fv{scr.morph.viol} & \pass \\
+        文件可读 \code{m\_gds}  & \fv{scr.gds.nPlus}   & \textcolor{bad}{\textbf{\fv{scr.gds.viol}}} & \textcolor{slot}{\textbf{待复筛}} \\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+    \begin{column}{61mm}
+      \begin{tikzpicture}
+        \node[slotbox,anchor=north west,text width=56.5mm,inner sep=1.5mm,font=\scriptsize] at (0,0)
+          {\textbf{\code{m\_gds} 的 \fv{scr.gds.viol} 例}都是「截断文件」和「改顶层名」变体。
+           考官其实判了它们几何无效，但我们读考官结果的代码只看了「文件存在」，把标签读成了通过。\\[0.7mm]
+           \tagJ{} 是读标签的 bug，不是检查器误杀；已在 \code{metrics\_reader.py} 改正。\\[0.7mm]
+           修正后的复筛结果：\ifslot{bank.mgdsViol}{%
+             \code{m\_gds} 违例 \textbf{\slotraw{bank.mgdsViol}} 例，6 项里 \textbf{\slotval{bank.nOk}} 项通过}{\slotchip[待同步核验]}};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+  \src{\tagF{} 修复前的 \code{phase2\_bank\_report.json}。另有一个只提醒、不替换交卷的提示探针（长宽比在 3 到 4 之间）：
+       在完全通过的样本上误报 \fv{scr.kFP} 次，在盲簇上命中 \fv{scr.kTPblind} 次。}
+\end{frame}
+
+% ============================================================ 12
+\begin{frame}{外层循环：断网的 Proposer 每轮只改一处，先离线筛，再上机实测}
+  \lead{Proposer 是另一个 Claude Code 进程，拿到的只有规则和失败现场，没有任何优化提示。}
+  \begin{tikzpicture}
+    \tikzset{pb/.style={anchor=north west,inner sep=1.3mm,font=\scriptsize,minimum height=22.5mm}}
+    \node[base,pb,text width=20.5mm] (ev) at (0,0)
+      {\textbf{证据}\\\fv{split.devVisible} 道可见题的运行记录和失败现场\\[0.4mm]盲簇只给合计数};
+    \node[ours,pb,text width=24mm] (pr) at (27.3,0)
+      {\textbf{Proposer 沙盒}\\断网，只能连模型\\读现任版本的壳代码\\写出一个补丁\\每轮只许改一处};
+    \node[ours,pb,text width=25mm] (s0) at (58.1,0)
+      {\textbf{Stage 0 离线筛}\\不调模型\\改动范围、静态检查\\裁判库：零误杀，且在盲簇上真能抓到问题};
+    \node[ours,pb,text width=47.5mm,minimum height=10.2mm] (p1) at (89.9,0)
+      {\textbf{Path 1}（只改了收工后的检查或抢修）\\从 \fv{wm.tSoftMin} 分钟存档重放；结论不变的运行不重跑};
+    \node[ours,pb,text width=47.5mm,minimum height=10.2mm] (p2) at (89.9,-12.3)
+      {\textbf{Path 2}（改到了主阶段）\\先 \fv{loop.bOne} 道可见题，再其余 \fv{loop.bTwo} 题，从头重跑};
+    \draw[arr] (ev) -- (pr); \draw[arr] (pr) -- (s0);
+    \draw[arr] (s0.east) -- ++(2.2,0) |- (p1.west);
+    \draw[arr] (s0.east) -- ++(2.2,0) |- (p2.west);
+    \node[lab,anchor=north west,text width=84mm,align=left,inner sep=0pt] at (0,-24.2)
+      {走哪条路由改动了哪些文件客观决定，不听 Proposer 自己申报。};
+    \node[good,anchor=north west,font=\scriptsize,inner sep=1.2mm,text width=47.5mm] (pm) at (89.9,-24.6)
+      {\textbf{晋升}：开发集上净增分 $>0$，补丁并入现任版本};
+    \draw[arr] (p2.south) -- (pm.north);
+    \node[locked,anchor=north west,font=\scriptsize,inner sep=1.2mm,text width=40mm] (va) at (0,-29.5)
+      {\textbf{验证集}（\fv{split.val} 题，封存）\\只用一次：现任版本对 $H_{\mathrm{base}}$ 配对比较};
+    \node[locked,anchor=north west,font=\scriptsize,inner sep=1.2mm,text width=37mm] (te) at (47.5,-29.5)
+      {\textbf{测试集}（\fv{split.test} 题，封存）\\只用一次：3 个种子揭盲};
+    \draw[arr] (va) -- (te);
+  \end{tikzpicture}
+  \vspace{0.8mm}
+
+  {\scriptsize\renewcommand{\arraystretch}{1.14}%
+  \begin{tabular}{@{}L{27mm}L{66mm}L{46mm}@{}}
+    \toprule
+    \textbf{允许的四类改动} & \textbf{改什么} & \textbf{权限} \\ \midrule
+    1\ \ 镜像检查器 & 新增或修改一个与考官判据对齐的本地检查 & 可以决定替换交卷；必须零误杀 \\
+    2\ \ 提示探针   & 发一条提醒，或请求一次受保护的抢修 & 不能替换交卷 \\
+    3\ \ 报错压缩   & 把很长的工具报错压成 2048 字节以内，保留根因行 & 不改任何检查结论 \\
+    4\ \ 抢修改进   & 改进收工后的无记忆抢修 & 不得影响主阶段 \\
+    \bottomrule
+  \end{tabular}}
+  \src{\tagM{} \code{src/ssap/eval/proposer\_sandbox.py}、\code{auto\_loop.py}。不许出现题号、电路名或逐题配方；内核目录以 SHA-256 锁定。}
+\end{frame}
+
+% ============================================================ 13-14 (+ optional Round 2, case)
+\def\RID{r1}\def\RNUM{1}
+\input{parts/round}
+\ifslotis{r2.full}{1}{\def\RID{r2}\def\RNUM{2}\input{parts/round}}{}
+\ifslotis{case.show}{1}{\input{parts/case}}{}
+
+% ============================================================ 15
+\begin{frame}{还没测的部分，和下一步}
+  \lead{下面几项目前没有数据，结论里不引用。}
+  {\footnotesize\renewcommand{\arraystretch}{1.3}%
+  \begin{tabular}{@{}L{37mm}L{52mm}L{50mm}@{}}
+    \toprule
+    \textbf{还没测的} & \textbf{现状} & \textbf{怎么补} \\ \midrule
+    保底壳本身的收益 & 开发集上没有跑不带壳的 $H_{\mathrm{raw}}$ 臂 & 封存测试集上 3 个种子，做三段归因 \\
+    考官的重复性 & 同一份版图没有重复判过 & 离线把同一份版图判两遍 \\
+    草稿里有没有更好的版本 & 中途草稿没有离线重评过（测了 0 次运行） & 离线重评草稿里程碑 \\
+    \code{m\_gds} 修正后的复筛 & 修正前 \fv{scr.gds.viol} 例不一致 &
+      \ifslot{bank.mgdsViol}{已复筛：违例 \slotraw{bank.mgdsViol} 例}{\slotchip[待同步核验]} \\
+    Phase 1c 抢修的明细 & 同步数据缺水位线字段和交卷更新前后的 \Ystar{} & 补同步每次运行的抢修记录 \\
+    \bottomrule
+  \end{tabular}}
+  \vspace{2.6mm}
+
+  \begin{tikzpicture}
+    \tikzset{nb/.style={anchor=north west,font=\scriptsize,inner sep=1.4mm,minimum height=15.5mm}}
+    \node[slotbox,nb,text width=37mm] (a) at (0,0)
+      {\textbf{Phase 3 继续跑}\\每轮一个补丁，开发集上净增分为正才并入};
+    \node[locked,nb,text width=42mm] (b) at (46.5,0)
+      {\textbf{验证集}：\fv{split.val} 题，只用一次\\现任版本与 $H_{\mathrm{base}}$ 按原生分数 \Ystar{} 配对比较，
+       严格更高才采用};
+    \node[locked,nb,text width=44.2mm] (c) at (98,0)
+      {\textbf{测试集}：\fv{split.test} 题 $\times$ 3 个种子，只用一次\\报告三段归因、种子噪声、完全通过的增减、
+       成本账本和对照基线};
+    \draw[arr] (a) -- (b); \draw[arr] (b) -- (c);
+  \end{tikzpicture}
+  \src{\tagF{} 「现状」一栏取自 Phase 1c 体检报告与 Phase 2 裁判库报告。选模与揭盲不设统计否决门槛。}
+\end{frame}
+
+% ============================================================ backup
+\begin{frame}{备用：\fv{split.devVisible} 道可见题的逐次结果（Phase 1c）}
+  \lead{8 道可见开发题 $\times$ 2 个种子的逐项实测明细（盲簇不列逐题，仅展示底部合计）。}
+  {\fontsize{6.2}{7.6}\selectfont\setlength{\tabcolsep}{0.95mm}\renewcommand{\arraystretch}{1.0}%
+  \begin{tabular}{@{}L{33mm}C{5.5mm}C{6.5mm}C{13.5mm}C{11.5mm}R{8.5mm}R{11.5mm}R{9.5mm}R{10.5mm}C{6.5mm}C{6.5mm}C{6.5mm}@{}}
+    \toprule
+    \textbf{题} & \textbf{种子} & \textbf{\Ystar} & \textbf{GDS/DRC/LVS} & \textbf{本地 6 项} & \textbf{请求数} &
+    \textbf{输入(百万)} & \textbf{墙钟(s)} & \textbf{网关等待} & \textbf{撞线} & \textbf{抢修} & \textbf{更新} \\ \midrule
+    \FactVisibleRunRows
+    \midrule
+    \multicolumn{12}{@{}p{142mm}@{}}{\textcolor{lock}{\fv{split.blindClusters} 个内部冻结盲簇合计（\fv{split.blindTasks} 题 $\times$ 2 种子 = \fv{blind.nRuns} 次，逐题明细不展示）：
+      平均 \Ystar{} \fv{blind.meanY}；GDS/DRC/LVS 通过 \fv{blind.gds}/\fv{blind.drc}/\fv{blind.lvs} 次；完全通过 \fv{blind.cSum} 次；交卷被更新 \fv{blind.promoted} 次}} \\
+    \bottomrule
+  \end{tabular}}
+  \src{\tagF{} 「本地 6 项」依次是 gds、lvs、shape、fill、morph、drc，1 为通过；$\bot$ 表示前一关没过、未评。
+       撞线：主阶段跑到第 \fv{wm.tSoftMin} 分钟被停；抢修：收工后触发了抢修；更新：抢修阶段交卷被替换。}
+\end{frame}
+
+\begin{frame}{备用：两条评测路径各要花多少}
+  \lead{\tagE{} 下面是按配置和 Phase 1c 的平均用量做的算术，不是实测。}
+  {\footnotesize\renewcommand{\arraystretch}{1.4}%
+  \begin{tabular}{@{}L{27mm}L{56mm}L{56mm}@{}}
+    \toprule
+    & \textbf{Path 1：从存档重放抢修} & \textbf{Path 2：从头配对重跑} \\ \midrule
+    什么时候用 & 补丁只影响第 \fv{wm.tSoftMin} 分钟之后的检查或抢修 & 补丁会改变主阶段里 Agent 看到的东西 \\
+    要跑什么 & 只跑结论发生变化的运行，每次 \fv{loop.rRep} 遍抢修，每遍最多 \fv{wm.repMin} 分钟
+             & \fv{split.dev} 道开发题各 1 遍，每遍最多 \fv{wm.tMaxMin} 分钟，再加考官最多 \fv{wm.verifierMin} 分钟 \\
+    墙钟 & 每个有变化的运行最多 \fv{est.pathOneMinPerTrial} 分钟；其余为 0
+         & 并发 \fv{loop.parallel} 时分 \fv{est.batches} 批，约 \fv{est.hoursLow} 到 \fv{est.hoursHigh} 小时 \\
+    模型用量 & 只有抢修那一小段 & 约 \fv{est.pathTwoInputM} 百万输入 token（\fv{split.dev} $\times$ \fv{pc.inputTokPerRunM} 百万） \\
+    怎么判 & 各次运行 $\Delta Y^\star$ 之和 $>0$ 才晋升 & \fv{split.dev} 题逐题配对，平均 $\Delta Y^\star>0$ 才晋升 \\
+    \bottomrule
+  \end{tabular}}
+  \src{\tagE{} 批数 = 先 \fv{loop.bOne} 题一批，再 \fv{loop.bTwo} 题按并发 \fv{loop.parallel} 分批。
+       一轮 Path 2 要半天以上，所以 Round 2 明早很可能还在跑。}
+\end{frame}
+
+\end{document}

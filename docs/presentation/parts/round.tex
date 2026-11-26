@@ -1,0 +1,91 @@
+% parts/round.tex -- the two frames of one Phase 3 round. Set \RID (r1 | r2) and \RNUM before
+% \input. All content comes from tonight_slots.tex; nothing here needs editing.
+\begin{frame}{\RoundTitleA{\RID}{\RNUM}}
+  \lead{\statepill{\RID}\quad{\footnotesize\color{muted}\asof。补丁由 Proposer 自己写，我们没有给任何优化提示。}}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \begin{column}{47.5mm}
+      {\scriptsize\renewcommand{\arraystretch}{1.36}%
+      \begin{tabular}{@{}L{14.5mm}L{31mm}@{}}
+        \toprule
+        候选        & \textbf{\slotval{\RID.candId}} \\
+        改动类别    & \classname{\RID} \\
+        涉及检查器  & \slotval{\RID.checker} \\
+        评测路径    & \pathname{\RID} \\
+        离线筛      & \ifslotis{\RID.stageZero}{1}{\pass}{\ifslotis{\RID.stageZero}{0}{\fail}{\slotchip}} \\
+        改动文件    & \slotval{\RID.nFiles} 个，其中主阶段会执行到的 \slotval{\RID.nPhaseA} 个 \\
+        提案次数    & \slotval{\RID.attempts} \\
+        \bottomrule
+      \end{tabular}}
+      \vspace{1.4mm}
+
+      {\scriptsize\textbf{Proposer 诊断理由（摘译自 \code{proposal.json}）}\par\vspace{0.4mm}
+       \ifslot{\RID.rationale}{{\color{ink!85}\slotraw{\RID.rationale}}}{\slotchip}\par}
+    \end{column}
+    \begin{column}{94mm}
+      {\scriptsize\textbf{补丁}\quad
+       \ifslot{\RID.patch}{\textcolor{ok}{$+$\slotraw{\RID.patchAdded}}\ \textcolor{bad}{$-$\slotraw{\RID.patchRemoved}}%
+         \quad\slotraw{\RID.patchFiles} 个文件}{}\par}
+      \vspace{0.8mm}
+      \ifslot{\RID.patch}{%
+        {\setlength{\fboxsep}{1mm}\setlength{\fboxrule}{0.5pt}%
+         \fcolorbox{hair}{white}{\begin{minipage}{91mm}\fontsize{6}{7.5}\selectfont\setlength{\parskip}{0pt}%
+           \input{\slotraw{\RID.patch}}\end{minipage}}}}{%
+        \begin{tikzpicture}
+          \node[slotbox,minimum width=93mm,minimum height=45mm,align=center,font=\small,text=slot!80!black]
+            {补丁生成后填入这里\\[1.5mm]{\scriptsize\code{python3 tools/fill\_slots.py -{}-round \RNUM\ -{}-patch candidate.patch}}};
+        \end{tikzpicture}}
+    \end{column}
+  \end{columns}
+  \src{\ifslot{\RID.patch}{\tagF{} 补丁与候选信息由脚本取自服务器的 \code{candidate.patch}、\code{stage0\_report.json} 和脱敏后的轮次报告。}%
+       {\tagS{} 这一页的内容今晚由服务器产生，明早由脚本填入；现在显示的是占位。}}
+\end{frame}
+
+\begin{frame}{\RoundTitleB{\RID}{\RNUM}}
+  \lead{判定规则在补丁出现之前就定好：只影响抢修的补丁看各次运行 $\Delta Y^\star$ 之和，会影响主阶段的补丁看
+        \fv{split.dev} 题逐题配对的平均 $\Delta Y^\star$，大于 0 才并入。}
+  \begin{tikzpicture}
+    \tikzset{tl/.style={tile,text width=31.2mm,minimum height=17.5mm,anchor=north west,inner sep=1.4mm}}
+    \node[tl] at (0,0)     {\midnum{\slotval{\RID.nTrials}}\\[0.6mm]{\scriptsize 参与评测的开发集运行}};
+    \node[tl] at (36.6,0)  {\midnum{\ifslotis{\RID.path}{2}{\textcolor{muted}{不适用}}{\slotval{\RID.nDivergent}}}\\[0.6mm]
+                            {\scriptsize 抢修判断有变化、需要重放的运行}};
+    \node[tl] at (73.2,0)  {\midnum{\deltafmt{\slotraw{\RID.delta}}}\\[0.6mm]
+                            {\scriptsize\ifslotis{\RID.deltaKind}{sum}{各次运行 $\Delta Y^\star$ 之和}{%
+                              \ifslotis{\RID.deltaKind}{mean}{\fv{split.dev} 题平均 $\Delta Y^\star$}{开发集净增分 $\Delta Y^\star$}}}};
+    \node[tl,locked] at (109.8,0)
+                           {\midnum[lock]{\deltafmt{\slotraw{\RID.blindDelta}}}\\[0.6mm]
+                            {\scriptsize 其中 \fv{split.blindClusters} 个内部冻结盲簇的合计}};
+  \end{tikzpicture}
+  \vspace{1.0mm}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \begin{column}{88mm}
+      \ifcsvoid{slotrows@\RID}{%
+        \begin{tikzpicture}
+          \node[slotbox,minimum width=87mm,minimum height=24mm,align=center,font=\footnotesize,text=slot!80!black]
+            {可见题的逐题结果\\[1mm]{\scriptsize 题、种子、$\Delta Y^\star$、判定；评测完成后由脚本填入}};
+        \end{tikzpicture}}{%
+        {\scriptsize\setlength{\tabcolsep}{1.0mm}\renewcommand{\arraystretch}{1.08}%
+        \begin{tabular}{@{}L{30mm}C{6.5mm}C{9.5mm}L{38mm}@{}}
+          \toprule
+          \textbf{可见题} & \textbf{种子} & \textbf{$\Delta Y^\star$} & \textbf{判定} \\ \midrule
+          \csname slotrows@\RID\endcsname
+          \bottomrule
+        \end{tabular}}%
+        \ifslot{\RID.rowsOmitted}{\ifslotis{\RID.rowsOmitted}{0}{}{\par\vspace{0.6mm}%
+          {\scriptsize\color{muted}另有 \slotraw{\RID.rowsOmitted} 行未列出。}}}{}}
+    \end{column}
+    \begin{column}{53mm}
+      {\scriptsize\setlength{\parskip}{0.8mm}%
+      \textbf{怎么读}\par
+      参考尺：基线两个种子平均分的标准差是 \fv{pc.sigmaSeed}。它只帮助读数，不作门槛。\par
+      判定：Rescued 是抢修后分数上升，Neutral 是不变，Damaged 是下降。\par
+      评测结论码：\slotval{\RID.reason}\par
+      本轮之后的现任版本：\slotval{\RID.hIncAfter}\par}
+    \end{column}
+  \end{columns}
+  \ifcsstring{RID}{r1}{\ifslotis{r2.full}{1}{}{%
+    \vspace{1.0mm}
+    {\scriptsize\textbf{Round 2}\quad\statepill{r2}\quad 候选 \slotval{r2.candId}\quad\classname{r2}\quad\pathname{r2}%
+     \quad 净增分 \deltafmt{\slotraw{r2.delta}}\par}}}{}
+  \src{\ifslot{\RID.delta}{\tagF{} 脚本取自服务器脱敏后的 \code{round\_report\_redacted.json}；盲簇只有合计，没有逐题。}%
+       {\tagS{} 今晚服务器在跑，明早由脚本从 \code{round\_report\_redacted.json} 填入；盲簇只填合计。}}
+\end{frame}

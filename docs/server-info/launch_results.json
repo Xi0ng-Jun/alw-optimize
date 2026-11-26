@@ -1,0 +1,36 @@
+[
+ {
+  "job_name": "smoke10m-run1-H_base-sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout-s0",
+  "task_id": "sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout",
+  "seed": 0,
+  "arm": "H_base",
+  "model": "ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public",
+  "agent_image": "ssap-alw-agent:2.1.302",
+  "job_config": "/localdata/<USER>/ssap-alw-state/jobs/smoke10m-run1/configs/smoke10m-run1-H_base-sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout-s0.json",
+  "exit_code": 0,
+  "proxy": {
+   "trial_id": "smoke10m-run1-H_base-sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout-s0",
+   "trial_index": 0,
+   "key_slot": 0,
+   "proxy_requests": 51,
+   "input_tokens": 2305890,
+   "output_tokens": 43779,
+   "cached_tokens": 108928,
+   "cache_creation_tokens": 0,
+   "upstream_models_seen": [
+    "deepseek-v4-1-flash-261017"
+   ],
+   "request_models_seen": [
+    "ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public"
+   ],
+   "http_429_count": 0,
+   "http_5xx_count": 0,
+   "unrecovered_gateway_error": false,
+   "unrecovered_gateway_errors": 0,
+   "gateway_wait_seconds": 150.145883,
+   "llm_stream_seconds": 252.51181,
+   "retries": 0,
+   "model_swap": true
+  }
+ }
+]

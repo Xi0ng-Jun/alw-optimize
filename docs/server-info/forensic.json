@@ -1,0 +1,340 @@
+[
+ {
+  "t": "sky130-adb-buf-ppsf-bs-gain1-sfdr90-layout",
+  "gds": [
+   "submission/layout.gds",
+   "submission/src/res_snake.gds",
+   "work/snake/snk2.gds",
+   "work/exp/n50.gds",
+   "work/exp/nn.gds",
+   "work/exp/prod_n1w15.gds",
+   "work/exp/prod_n5.gds",
+   "work/exp/p50.gds",
+   "work/exp/prod_n50_055.gds",
+   "work/exp/prod_n50_05.gds",
+   "work/exp/res1.gds",
+   "work/exp/prod_n1w3.gds",
+   "work/exp/p50g.gds",
+   "work/exp/prod_p1w15.gds",
+   "work/exp/prod_mim.gds",
+   "work/exp/prod_p5.gds",
+   "work/exp/prod_p50_055.gds",
+   "work/exp/mim1.gds",
+   "work/exp/prod_p50_05.gds",
+   "work/res/snk.gds",
+   "work/is2/iso2.gds",
+   "work/is2/iso2f.gds",
+   "work/res2/rs.gds",
+   "work/res2/rsf.gds",
+   "work/prt/pt2.gds",
+   "work/prt/pt3.gds",
+   "work/prt/pt8.gds",
+   "work/prt/pt.gds",
+   "work/mt/d.gds",
+   "work/iso/iso1.gds",
+   "work/iso/iso1f.gds",
+   "work/rcal/rcal.gds",
+   "work/draft/layout.gds",
+   "work/probe2/res2.gds",
+   "work/is3/iso3.gds",
+   "work/is3/iso3f.gds",
+   "work/res3/r4.gds",
+   "work/probe2/lvs/geometry.gds",
+   "work/draft/src/res_snake.gds",
+   "work/draft/_direct_snapshot/0001_8f46f248/layout.gds",
+   "work/draft/_direct_snapshot/0001_8f46f248/src/res_snake.gds",
+   "work/exp/lvs/n50_flat.gds",
+   "work/snake/lvs/geometry.gds",
+   ".mcr/best/layout.gds",
+   ".mcr/best/src/res_snake.gds",
+   ".mcr/checks/20261123T113449_772cf7c1/lvs/geometry.gds",
+   ".mcr/checks/20261123T113628_2365d2b5/lvs/geometry.gds",
+   ".mcr/checks/20261123T113726_2bd88e83/lvs/geometry.gds",
+   ".mcr/checks/20261123T113652_30f4eb9b/lvs/geometry.gds",
+   ".mcr/checks/20261123T113604_bacea994/lvs/geometry.gds"
+  ],
+  "fork": {
+   "granted_repair_budget_sec": 900.0,
+   "granted_repair_turns": 15,
+   "pending_promotion": {
+    "promoted": false,
+    "reason": "same_tier_no_improvement"
+   },
+   "phase_a": {
+    "returncode": 0,
+    "seconds": 9734.064,
+    "session": 44,
+    "stray_processes_terminated": 3,
+    "timed_out": false
+   },
+   "phase_a_argv": [
+    "--verbose",
+    "--output-format=stream-json",
+    "--settings",
+    "/tmp/claude-code-settings/settings.json",
+    "--effort",
+    "max",
+    "--permission-mode=bypassPermissions",
+    "--print"
+   ],
+   "phase_a_elapsed_sec": 9734.118,
+   "remaining_sec": 1065.882,
+   "repair_eligible": true,
+   "schema_version": 1,
+   "watermarks": {
+    "delta_s_rep_turns": 15,
+    "delta_t_rep_sec": 900.0,
+    "kill_grace_sec": 5.0,
+    "min_remaining_for_repair_sec": 180.0,
+    "t_max_sec": 10800.0,
+    "t_soft_sec": 9900.0,
+    "t_warn_sec": 9000.0,
+    "tail_buffer_sec": 120.0
+   }
+  },
+  "hand": {
+   "status": "in_progress",
+   "updated_utc": "2026-11-23T11:44:00Z",
+   "promoted": true,
+   "artifact": "submission/layout.gds  sha256 0afb10e5b010fab0d66a7cf96f08762c  top cell buf_ppsf_bs",
+   "last_check": ".mcr/checks/20261123T113449_772cf7c1",
+   "mirror": {
+    "m_gds": "PASS - readable GDS, single top cell buf_ppsf_bs, bbox (-1,0)-(392.05,335.14) um",
+    "m_shape": "PASS - aspect q = 1.03 (limit 4.0)",
+    "m_morph": "PASS (magic_netgen backend exempt)",
+    "m_drc": "PASS - 0 markers with thr=2 feol=true beol=true offgrid=true floating_met=true",
+    "m_lvs": "FAIL - 8 ports reported disconnected; 459 extracted vs 39 schematic devices; 'Top level cell failed pin matching'",
+    "m_fill": "unavailable (gated on m_lvs)"
+   },
+   "what_is_done": [
+    "Submission promoted and DRC-clean, so the ratchet holds a valid floor.",
+    "All 39 devices instantiated at the schematic sizes: NMOS/PMOS pcells with nf == schematic m (verified earlier that an nf=50 pcell extracts as 50 parallel devices which netgen merges into the m=50 schematic device).",
+    "8 MIM caps 49.85 x 49.85 and 8 serpentine poly resistors (w=0.33, nx=32, extracts l=5685.8) placed.",
+    "8 PIN-layer labels (68/16) at met1 pads in the exact contract order IREF VCM VDD VIN VIP VON VOP VSS.",
+    "Sources: build.py (assembly), common.py (rect/wire/via helpers, Magic resistor generator), devices.py (MOS/cap/res wrappers incl. add_mos met1-strap + isolated-NMOS body pocket), make_res_snake.py, res_snake.gds."
+   ],
+   "known_blockers": [
+    "No routing. Every device terminal, cap plate, resistor end and port pad is an isolated island, hence 950 nets and disconnected ports.",
+    "floating_met=true in the DRC deck: any metal that does not touch a via/mcon is an error, so routing stubs must always end on a via.",
+    "devices.add_mos() is written but unused; it is the primitive that draws met1 diff straps, met2 source/drain bars with via1, and the met1 gate pad."
+   ],
+   "next_steps": [
+    "1. Replace the packer in build.py with devices.add_mos() per device so each MOS exposes dev.g / dev.a / dev.b met2 bars and dev.body.",
+    "2. Write a small rectilinear router (met2 horizontal, met3 vertical, via2 at crossings) over the Term objects; route 29 nets: VDD, VSS, IREF, VCM, VIN, VIP, VON, VOP, net1..net20.",
+    "3. Terminate every route end on a via_stack(); never leave a metal stub.",
+    "4. Re-run bash work/is2/run_drc.sh work/draft/layout.gds buf_ppsf_bs /tmp/dN after each group of nets, then mcr_promote.",
+    "5. Then attempt post-layout PEX sim across the 5 corners (secondary to LVS)."
+   ]
+  },
+  "lvs": {
+   "out_dir": "/alb-workspace/.mcr/checks/20261123T113449_772cf7c1/lvs",
+   "passed": false,
+   "reason": "LVS mismatch"
+  },
+  "trace": {
+   "best_sha256_after": "8f46f2486004563c125c9cb3e2dcce74012a9e4cec0baa2d5515910ad79948f8",
+   "best_sha256_before": "8f46f2486004563c125c9cb3e2dcce74012a9e4cec0baa2d5515910ad79948f8",
+   "pending_promotion": null,
+   "phase_b": {
+    "returncode": 1,
+    "seconds": 200.844,
+    "session": 17317,
+    "stray_processes_terminated": 0,
+    "timed_out": false
+   },
+   "ratchet_promoted": false,
+   "schema_version": 1
+  },
+  "err": "[claude-code:unrecognized_model] {\"model\":\"ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public\",\"query_source\":\"sdk\"}\n",
+  "pb": [
+   "{\"type\":\"system\",\"subtype\":\"task_notification\",\"task_id\":\"br5c8p5ud\",\"run_id\":\"0mwt72s2d-f7de9745\",\"tool_use_id\":\"call_00_4yosjvvoom0fttrbnlhe991c\",\"status\":\"completed\",\"output_file\":\"\",\"summary\":\"Probe pcell terminal geometry\",\"uuid\":\"a2001818-2f0c-",
+   "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"call_00_4yosjvvoom0fttrbnlhe991c\",\"type\":\"tool_result\",\"content\":\"--- n nf=1 w=3 l=0.5 bbox=(-0.665,-1.96;0.665,1.96)\\nTraceback (most recent call last):\\n  File \\\"/alb-workspace/work",
+   "{\"duration_api_ms\":186329,\"stop_reason\":\"tool_use\",\"session_id\":\"64f6af53-b3ab-4818-bdc1-4807ef37001c\",\"total_cost_usd\":3.7008489999999994,\"usage\":{\"input_tokens\":615188,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":45568,\"output_tokens\":"
+  ]
+ },
+ {
+  "t": "sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout",
+  "gds": [
+   "work/t1/tst2.gds",
+   "work/t1/tst.gds",
+   "work/explore/d_m1.gds",
+   "work/explore/d_m6.gds",
+   "work/explore/d_m5.gds",
+   "work/explore/d_m3.gds",
+   "work/t2/t2.gds"
+  ],
+  "fork": {
+   "granted_repair_budget_sec": 779.917,
+   "granted_repair_turns": 15,
+   "pending_promotion": null,
+   "phase_a": {
+    "returncode": 143,
+    "seconds": 9900.029,
+    "session": 44,
+    "stray_processes_terminated": 0,
+    "timed_out": true
+   },
+   "phase_a_argv": [
+    "--verbose",
+    "--output-format=stream-json",
+    "--settings",
+    "/tmp/claude-code-settings/settings.json",
+    "--effort",
+    "max",
+    "--permission-mode=bypassPermissions",
+    "--print"
+   ],
+   "phase_a_elapsed_sec": 9900.083,
+   "remaining_sec": 899.917,
+   "repair_eligible": true,
+   "schema_version": 1,
+   "watermarks": {
+    "delta_s_rep_turns": 15,
+    "delta_t_rep_sec": 900.0,
+    "kill_grace_sec": 5.0,
+    "min_remaining_for_repair_sec": 180.0,
+    "t_max_sec": 10800.0,
+    "t_soft_sec": 9900.0,
+    "t_warn_sec": 9000.0,
+    "tail_buffer_sec": 120.0
+   }
+  },
+  "hand": {},
+  "lvs": null,
+  "trace": {
+   "best_sha256_after": null,
+   "best_sha256_before": null,
+   "pending_promotion": null,
+   "phase_b": {
+    "returncode": 1,
+    "seconds": 167.831,
+    "session": 8930,
+    "stray_processes_terminated": 0,
+    "timed_out": false
+   },
+   "ratchet_promoted": false,
+   "schema_version": 1
+  },
+  "err": "[claude-code:unrecognized_model] {\"model\":\"ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public\",\"query_source\":\"sdk\"}\n",
+  "pb": [
+   "{\"type\":\"assistant\",\"message\":{\"type\":\"message\",\"model\":\"deepseek-v4-1-flash-261017\",\"usage\":{\"input_tokens\":43501,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"output_tokens\":0,\"claude_cache_creation_5_m_tokens\":0,\"claude_cache_creati",
+   "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"tool_result\",\"content\":\"Exit code 2\",\"is_error\":true,\"tool_use_id\":\"call_00_4yziagrqingdyfypcz5smloc\"}]},\"parent_tool_use_id\":null,\"session_id\":\"58512eef-e023-4956-94b6-d95f1834c4db\",\"uuid\":",
+   "{\"duration_api_ms\":160907,\"stop_reason\":\"tool_use\",\"session_id\":\"58512eef-e023-4956-94b6-d95f1834c4db\",\"total_cost_usd\":2.968794,\"usage\":{\"input_tokens\":485531,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":48128,\"output_tokens\":20683,\"out"
+  ]
+ },
+ {
+  "t": "sky130-local-comparator-layout",
+  "gds": [
+   "submission/layout.gds",
+   "work/probe/ve_p22.gds",
+   "work/probe/ve_p84.gds",
+   "work/probe/ve_n84.gds",
+   "work/probe/t_n84.gds",
+   "work/probe/t_r84.gds",
+   "work/probe/ve_n0.gds",
+   "work/probe/ve_n46.gds",
+   "work/draft/layout.gds",
+   "work/mtest/raw.gds",
+   "work/mtest/t_c.gds",
+   "work/mtest/t_b.gds",
+   "work/mtest/t1.gds",
+   "work/mtest/td.gds",
+   "work/mtest/bar.gds",
+   "work/mtest/x.gds",
+   "work/mtest/t_d.gds",
+   "work/mtest/t_a.gds",
+   "work/mtest/mf/t3.gds",
+   "work/mtest/mf/t2.gds",
+   "work/mtest/l2/t1.gds",
+   "work/mtest/lvs1/t1.gds",
+   "work/mtest/lvstest/tx.gds",
+   ".mcr/best/layout.gds"
+  ],
+  "fork": {
+   "granted_repair_budget_sec": 900.0,
+   "granted_repair_turns": 15,
+   "pending_promotion": null,
+   "phase_a": {
+    "returncode": 0,
+    "seconds": 9525.751,
+    "session": 44,
+    "stray_processes_terminated": 0,
+    "timed_out": false
+   },
+   "phase_a_argv": [
+    "--verbose",
+    "--output-format=stream-json",
+    "--settings",
+    "/tmp/claude-code-settings/settings.json",
+    "--effort",
+    "max",
+    "--permission-mode=bypassPermissions",
+    "--print"
+   ],
+   "phase_a_elapsed_sec": 9525.804,
+   "remaining_sec": 1274.196,
+   "repair_eligible": true,
+   "schema_version": 1,
+   "watermarks": {
+    "delta_s_rep_turns": 15,
+    "delta_t_rep_sec": 900.0,
+    "kill_grace_sec": 5.0,
+    "min_remaining_for_repair_sec": 180.0,
+    "t_max_sec": 10800.0,
+    "t_soft_sec": 9900.0,
+    "t_warn_sec": 9000.0,
+    "tail_buffer_sec": 120.0
+   }
+  },
+  "hand": {
+   "schema_version": 1,
+   "status": "in_progress",
+   "updated_utc": "2026-11-23T11:40:00Z",
+   "promoted_submission": {
+    "layout": "/alb-workspace/submission/layout.gds",
+    "src": "/alb-workspace/submission/src",
+    "note": "bootstrap promo of DRC-clean placement (17 devices + taps + M2 S/D rails, merged nwell). DRC 0 markers, LVS 17/17 devices extracted but nets unrouted so top_ports_match False."
+   },
+   "done": [
+    "moslib.py: pcell device builder, S/D via1 straps, gate M1 bars, mirror fix (dmirror_x(0))",
+    "LVS deck accepts either S/D orientation (verified ref_r/ref_swap)",
+    "place.py: 4-band placement, DRC-clean (merge a single nwell over the PMOS band to kill nwell.SP)",
+    "tap strips: ntap in nwell at y=3.75, ptap at y=19.9, both with tap_m1 recipe"
+   ],
+   "known_blockers": [
+    "signal routing not implemented: all 12 nets (clk,gnd,vdd,net069,intern,interp,crossp,crossn,outm,outp,net0,net1) still need M2 verticals / M3 horizontals",
+    "M2 escape spacing: 0.20-wide escapes at adjacent S/D+gate columns violate m2.2 (0.085 gap vs 0.14 rule); gate should leave on M3 or escapes must be spaced >=0.34 centre-to-centre"
+   ],
+   "next_steps": [
+    "route gates/columns with M2 verticals at >=0.34 pitch, M3 horizontal bus rows above/below device bands",
+    "add top-level labels on 69/5 (m2) / 70/5 (m3) for all 12 ports so LVS top_ports_match becomes True",
+    "re-run tools/check.py until m=[1,1,1,1,1,1]; then Magic PEX + ngspice vs sim-base (22.7uW, 0.783ns)"
+   ]
+  },
+  "lvs": {
+   "out_dir": "/alb-workspace/.mcr/checks/20261123T113315_34db3775/lvs",
+   "passed": false,
+   "reason": "klayout returned 1"
+  },
+  "trace": {
+   "best_sha256_after": "f2f7ba33fcd939f82a8d0f6e1e5a2ae77e71ac5f08194fd7d1dc60770dd4a4d2",
+   "best_sha256_before": "f2f7ba33fcd939f82a8d0f6e1e5a2ae77e71ac5f08194fd7d1dc60770dd4a4d2",
+   "pending_promotion": null,
+   "phase_b": {
+    "returncode": 1,
+    "seconds": 57.565,
+    "session": 21480,
+    "stray_processes_terminated": 0,
+    "timed_out": false
+   },
+   "ratchet_promoted": false,
+   "schema_version": 1
+  },
+  "err": "[claude-code:unrecognized_model] {\"model\":\"ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public\",\"query_source\":\"sdk\"}\n",
+  "pb": [
+   "{\"type\":\"assistant\",\"message\":{\"type\":\"message\",\"model\":\"deepseek-v4-1-flash-261017\",\"usage\":{\"input_tokens\":37282,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"output_tokens\":0,\"claude_cache_creation_5_m_tokens\":0,\"claude_cache_creati",
+   "{\"type\":\"user\",\"message\":{\"role\":\"user\",\"content\":[{\"tool_use_id\":\"call_00_v3wlo1inen3ppo1hpfuet2ff\",\"type\":\"tool_result\",\"content\":\"(Bash completed with no output)\",\"is_error\":false}]},\"parent_tool_use_id\":null,\"session_id\":\"0b0f6066-b97b-4772-b93e-",
+   "{\"duration_api_ms\":56677,\"stop_reason\":\"tool_use\",\"session_id\":\"0b0f6066-b97b-4772-b93e-0d9d27fe922c\",\"total_cost_usd\":2.354733999999999,\"usage\":{\"input_tokens\":446874,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":48128,\"output_tokens\":38"
+  ]
+ }
+]

@@ -11,4 +11,4 @@ runs/
 *.aux
 *.log
 *.out
-docs/server-info/
+# docs/server-info/ is included deliberately for the 2026-11-26 handoff (exports are redacted: <USER>).

@@ -1,0 +1,59 @@
+{
+ "schema_version": 1,
+ "task_id": "sky130-adb-ota-5t-gain40-pm60-noise50uv-pvt-layout",
+ "seed": "0",
+ "version_id": "H_base",
+ "model_id": "ExternalAPI-Physical-Design-deepseek-v4-1-flash-volcengine-public",
+ "key_slot": null,
+ "agent_image": "ssap-alw-agent:2.1.302",
+ "watermarks": {
+  "t_max_sec": 600.0,
+  "t_warn_sec": 300.0,
+  "t_soft_sec": 390.0,
+  "delta_t_rep_sec": 900.0,
+  "delta_s_rep_turns": 15,
+  "min_remaining_for_repair_sec": 180.0,
+  "tail_buffer_sec": 120.0,
+  "kill_grace_sec": 5.0
+ },
+ "pre_repair_gds_sha256": null,
+ "post_repair_gds_sha256": null,
+ "submission_gds_sha256": null,
+ "submission_src_tree_sha256": null,
+ "draft_latest_gds_sha256": null,
+ "m_pre": null,
+ "u_pre": null,
+ "raw_u_pre": null,
+ "m_post": null,
+ "u_post": null,
+ "raw_u_post": null,
+ "gate_triggered": true,
+ "trigger_reasons": [
+  "m_best_not_all_certified"
+ ],
+ "repair_ran": true,
+ "ratchet_promoted": false,
+ "promote_reason": "no_new_candidate",
+ "phase_a_reused": false,
+ "phase_b_invoked": true,
+ "model_request_diverged": null,
+ "submission_artifact_diverged": null,
+ "infra_error": false,
+ "infra_reason": null,
+ "outer_metrics": {
+  "Y_star": null,
+  "C_star": null,
+  "d_star": null,
+  "score_is_lower_bound": null,
+  "evaluation_error": null
+ },
+ "cost_ledger": {
+  "input_tokens": null,
+  "output_tokens": null,
+  "cached_tokens": null,
+  "usd": null,
+  "tool_cpu_sec": 84.444,
+  "peak_ram_mb": 269.1,
+  "wall_sec": 446.649
+ }
+}

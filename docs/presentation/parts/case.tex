@@ -1,0 +1,27 @@
+% parts/case.tex -- optional single-task before/after frame (shown when \slot{case.show}{1}).
+\begin{frame}{单题前后对比：\slotval{case.task}}
+  \lead{同一道可见题、同一个种子，补丁前后各看一次运行。}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \begin{column}{\ifslot{case.image}{47mm}{70mm}}
+      \begin{tikzpicture}
+        \node[base,anchor=north west,text width=\ifslot{case.image}{43mm}{66mm},inner sep=1.6mm]
+          {\textbf{改动前}\\[0.6mm]{\scriptsize\slotval{case.before}}\\[1.2mm]
+           {\scriptsize LVS：\slotval{case.lvsBefore}}\\[1.2mm]
+           \midnum[muted]{\Ystar{} = \slotval{case.yBefore}}};
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{\ifslot{case.image}{47mm}{70mm}}
+      \begin{tikzpicture}
+        \node[ours,anchor=north west,text width=\ifslot{case.image}{43mm}{66mm},inner sep=1.6mm]
+          {\textbf{改动后}\\[0.6mm]{\scriptsize\slotval{case.after}}\\[1.2mm]
+           {\scriptsize LVS：\slotval{case.lvsAfter}}\\[1.2mm]
+           \midnum{\Ystar{} = \slotval{case.yAfter}}};
+      \end{tikzpicture}
+    \end{column}
+    \ifslot{case.image}{%
+    \begin{column}{46mm}
+      \includegraphics[width=45mm,height=48mm,keepaspectratio]{\slotraw{case.image}}
+    \end{column}}{}
+  \end{columns}
+  \src{\tagF{} 手工从这道可见题的运行记录里摘出；只用 \fv{split.devVisible} 道可见题。}
+\end{frame}

@@ -1,0 +1,19 @@
+% Key hunks from docs/server-info/r1_export/candidate.patch
+\dfile{src/ssap/checkers/alw/repair.py}
+\dhunk{@@\ -54,9\ +62,136\ @@}
+\dadd{+def\ \_failure\_note(details:\ dict,\ name:\ str)\ -\textgreater{}\ str\ \textbar{}\ None:}
+\dadd{+\ \ \ \ if\ name\ ==\ \textquotedbl{}m\_lvs\textquotedbl{}:\ ...}
+\dadd{+\ \ \ \ \ \ \ \ return\ f\textquotedbl{}lvs\ backend=\{details.get('backend')!r\}\ reason=\{lvs.get('reason')!r\}\textquotedbl{}}
+\dadd{+\ \ \ \ if\ name\ ==\ \textquotedbl{}m\_drc\textquotedbl{}:\ ...}
+\dadd{+\ \ \ \ \ \ \ \ return\ f\textquotedbl{}drc\ markers=\{drc.get('markers')\}\ top\_categories=\{...\}\textquotedbl{}}
+\dadd{+def\ diagnose(cert:\ dict\ \textbar{}\ None,\ mirror:\ list[tuple[str,\ ...]])\ -\textgreater{}\ list[str]:}
+\dadd{+\ \ \ \ ...\ \ \#\ raw\ margin\ vs\ eps,\ blocked\ by\ uncertified\ prereq,\ already\ certified}
+\dhunk{@@\ -64,6\ +199,13\ @@\ def\ repair\_prompt(gate,\ fork,\ handoff\_record,\ workspace):}
+\dadd{+\ \ \ \ cert\ =\ \_best\_cert(gate,\ w)}
+\dadd{+\ \ \ \ lines\ =\ diagnose(cert,\ mirror\ if\ mirror\ is\ not\ None\ else\ \_mirror\_deps())}
+\dadd{+\ \ \ \ checks\ =\ \_recent\_check\_dirs(w)}
+\dctx{\ Gate\ report\ (why\ this\ repair\ runs):\ \{json.dumps(gate,\ indent=1,\ default=str)\}}
+\dadd{+Certificate\ diagnosis\ (mirror\ names,\ raw\ margins\ and\ eps):}
+\dadd{+\{chr(10).join(lines)\}}
+\dadd{+Previous\ check\ outputs\ (LVS/DRC\ logs\ and\ artefacts):\ \{checks\_block\}}
+\dmore{完整补丁共 +143 / -1 行（单文件改动）}

@@ -1,0 +1,137 @@
+% theme.tex -- look, components and the fact / slot interfaces of the ALW progress deck.
+% Packages are limited to the offline-cached set: ctexbeamer, tikz, booktabs, array, multirow.
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{tikz}
+\usetikzlibrary{positioning,calc,fit,arrows.meta}
+
+% ---------- fonts: Microsoft YaHei + Consolas on WSL; Fandol / Latin Modern elsewhere ----------
+\IfFileExists{/mnt/c/Windows/Fonts/msyh.ttc}{%
+  \setCJKmainfont{msyh.ttc}[Path=/mnt/c/Windows/Fonts/,BoldFont=msyhbd.ttc,ItalicFont=msyh.ttc]
+  \setCJKsansfont{msyh.ttc}[Path=/mnt/c/Windows/Fonts/,BoldFont=msyhbd.ttc,ItalicFont=msyh.ttc]
+  \setCJKmonofont{msyh.ttc}[Path=/mnt/c/Windows/Fonts/,BoldFont=msyhbd.ttc]
+  \setsansfont{msyh.ttc}[Path=/mnt/c/Windows/Fonts/,BoldFont=msyhbd.ttc,ItalicFont=msyh.ttc]
+}{}
+\IfFileExists{/mnt/c/Windows/Fonts/consola.ttf}{%
+  \setmonofont{consola.ttf}[Path=/mnt/c/Windows/Fonts/,BoldFont=consolab.ttf,Scale=0.92]
+}{}
+
+% ---------- colours (meaning is fixed across the deck) ----------
+\definecolor{accent}{RGB}{31,78,121}     % what we added
+\definecolor{ink}{RGB}{34,40,49}
+\definecolor{muted}{RGB}{108,114,124}    % untouched benchmark / Claude Code
+\definecolor{hair}{RGB}{212,217,224}
+\definecolor{paper}{RGB}{245,247,250}
+\definecolor{ok}{RGB}{34,124,82}         % pass
+\definecolor{bad}{RGB}{188,56,50}        % fail
+\definecolor{slot}{RGB}{186,118,10}      % tonight's slot
+\definecolor{lock}{RGB}{70,76,86}        % sealed val / test, blind aggregates
+
+% ---------- beamer ----------
+\setbeamertemplate{navigation symbols}{}
+\setbeamersize{text margin left=8mm,text margin right=8mm}
+\setbeamercolor{normal text}{fg=ink}
+\setbeamercolor{structure}{fg=accent}
+\setbeamercolor{frametitle}{fg=accent}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamertemplate{frametitle}{%
+  \vskip3.6mm%
+  {\color{accent}\rule[-1.1mm]{1.1mm}{5mm}}\hspace{2.4mm}%
+  \usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle\par\vskip-0.6mm}
+\setbeamertemplate{footline}{%
+  \hbox to\paperwidth{\hspace{8mm}{\tiny\color{muted}\insertshorttitle}\hfill
+    {\scriptsize\color{muted}\insertframenumber}\hspace{8mm}}\vskip2.2mm}
+\setbeamertemplate{itemize items}{\color{accent}\rule[0.25ex]{0.9ex}{0.9ex}}
+\setlength{\leftmargini}{4.2mm}
+\setbeamerfont{itemize/enumerate body}{size=\small}
+
+\makeatletter
+% ---------- small text components ----------
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcommand{\hl}[1]{\textcolor{accent}{\textbf{#1}}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\Ystar}{$Y^\star$}
+\newcommand{\Cstar}{$C^\star$}
+\newcommand{\yes}{\textcolor{ok}{是}}
+\newcommand{\no}{\textcolor{muted}{否}}
+\newcommand{\pass}{\textcolor{ok}{\textbf{通过}}}
+\newcommand{\fail}{\textcolor{bad}{\textbf{未通过}}}
+\newcommand{\lead}[1]{{\small #1\par}\vspace{1.6mm}}
+% evidence tags
+\newcommand{\evtag}[2]{\textcolor{#1}{\textbf{[#2]}}}
+\newcommand{\tagF}{\evtag{ok}{事实}}
+\newcommand{\tagJ}{\evtag{accent}{判断}}
+\newcommand{\tagU}{\evtag{slot}{未核验}}
+\newcommand{\tagM}{\evtag{muted}{机制}}
+\newcommand{\tagE}{\evtag{muted}{估算}}
+\newcommand{\tagS}{\evtag{slot}{待填}}
+% source line at the bottom of a frame
+\newcommand{\src}[1]{\par\vfill{\scriptsize\color{muted}#1\par}\vspace{0.4mm}}
+\newcommand{\pill}[2]{{\setlength{\fboxsep}{1.6pt}\colorbox{#1}{\textcolor{white}{\scriptsize\bfseries\,#2\,}}}}
+\newcommand{\chip}[2]{{\setlength{\fboxsep}{1.6pt}\colorbox{#1!13}{\textcolor{#1}{\scriptsize\,#2\,}}}}
+
+% ---------- facts: \setfact{key}{value} (facts.tex, generated) and \fv{key} ----------
+\newcommand{\setfact}[2]{\expandafter\gdef\csname fact@#1\endcsname{#2}}
+\newcommand{\fv}[1]{\ifcsname fact@#1\endcsname\csname fact@#1\endcsname\else
+  \PackageError{deck}{Unknown fact '#1' (regenerate facts.tex)}{}\fi}
+
+% ---------- slots: \slot{key}{value} (tonight_slots.tex) ----------
+\newcommand{\slot}[2]{\expandafter\gdef\csname slot@#1\endcsname{#2}}
+\newcommand{\slotrow}[5]{\csgappto{slotrows@#1}{#2 & #3 & \deltafmt{#4} & #5 \\}}
+\newcommand{\ifslot}[3]{\ifcsvoid{slot@#1}{#3}{#2}}                 % {key}{filled}{empty}
+\newcommand{\ifslotis}[4]{\ifcsstring{slot@#1}{#2}{#3}{#4}}          % {key}{string}{yes}{no}
+\newcommand{\slotraw}[1]{\ifcsvoid{slot@#1}{}{\csname slot@#1\endcsname}}
+\newcommand{\slotchip}[1][明早填入]{\chip{slot}{#1}}
+\newcommand{\slotval}[2][明早填入]{\ifslot{#2}{\csname slot@#2\endcsname}{\slotchip[#1]}}
+% signed number coloured by sign; empty -> chip
+\newcommand{\deltafmt}[1]{\edef\deck@tmp{#1}\ifx\deck@tmp\@empty\slotchip\else
+  \pgfmathtruncatemacro\deck@sgn{\deck@tmp>0.000001?1:(\deck@tmp<-0.000001?2:0)}%
+  \ifcase\deck@sgn\relax\textcolor{muted}{\deck@tmp}\or\textcolor{ok}{\textbf{\deck@tmp}}\or
+  \textcolor{bad}{\textbf{\deck@tmp}}\fi\fi}
+
+% ---------- diff card lines (slots/r<g>_patch.tex is generated by tools/fill_slots.py) ----------
+\newcommand{\deck@dline}[3]{{\setlength{\fboxsep}{0pt}\colorbox{#1}{\makebox[\linewidth][l]{%
+  \color{#2}\ttfamily\rule[-0.28em]{0pt}{1.12em}\,#3}}}\par}
+\newcommand{\dadd}[1]{\deck@dline{ok!13}{ok!75!black}{#1}}
+\newcommand{\ddel}[1]{\deck@dline{bad!11}{bad!85!black}{#1}}
+\newcommand{\dctx}[1]{\deck@dline{white}{ink!85}{#1}}
+\newcommand{\dhunk}[1]{\deck@dline{accent!8}{accent!85}{#1}}
+\newcommand{\dfile}[1]{\deck@dline{accent!20}{accent}{\bfseries #1}}
+\newcommand{\dmore}[1]{\deck@dline{white}{muted}{\rmfamily …… #1}}
+\newcommand{\nl}[1]{{\ttfamily #1}\par}
+
+% ---------- TikZ components ----------
+\tikzset{
+  every picture/.style={x=1mm,y=1mm,line cap=round,line join=round},
+  box/.style={draw=hair,fill=paper,rounded corners=1.1mm,inner sep=1.6mm,align=left,
+              font=\footnotesize,line width=0.5pt},
+  ours/.style={box,draw=accent!70,fill=accent!7},
+  base/.style={box,draw=muted!45,fill=muted!7},
+  good/.style={box,draw=ok!70,fill=ok!8},
+  fail/.style={box,draw=bad!70,fill=bad!7},
+  slotbox/.style={box,draw=slot,dashed,fill=slot!6},
+  locked/.style={box,draw=lock!70,fill=lock!11,text=lock},
+  arr/.style={-{Stealth[length=1.9mm,width=1.5mm]},line width=0.55pt,draw=muted},
+  lab/.style={font=\scriptsize,text=muted,inner sep=0.6mm},
+  num/.style={circle,fill=accent,text=white,font=\scriptsize\bfseries,inner sep=0pt,
+              minimum size=3.9mm},
+  tile/.style={box,align=center,inner sep=1.8mm},
+}
+\newcommand{\bignum}[2][accent]{{\fontsize{19}{21}\selectfont\bfseries\color{#1}#2}}
+\newcommand{\midnum}[2][accent]{{\fontsize{13}{15}\selectfont\bfseries\color{#1}#2}}
+
+% visible Phase 1c grid cells (rows from facts.tex)
+\newcommand{\tasklabel}[3]{\node[anchor=west,font=\scriptsize,inner sep=0pt] at (0,-#1*4.15)
+  {\makebox[6.2mm][l]{\textbf{#2}}#3};}
+\newcommand{\runcell}[4]{%
+  \def\deck@c{muted}\def\deck@s{#4}%
+  \def\deck@k{nogds}\ifx\deck@s\deck@k\def\deck@c{bad}\fi
+  \def\deck@k{drc}\ifx\deck@s\deck@k\def\deck@c{accent}\fi
+  \def\deck@k{lvs}\ifx\deck@s\deck@k\def\deck@c{ok}\fi
+  \node[draw=\deck@c!60,fill=\deck@c!14,text=\deck@c!85!black,font=\scriptsize\bfseries,
+        minimum width=8mm,minimum height=3.5mm,inner sep=0pt,rounded corners=0.5mm]
+        at (37.5+#2*9,-#1*4.15) {#3};}
+\makeatother
